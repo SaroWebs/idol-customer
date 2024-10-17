@@ -1,0 +1,25 @@
+.mantine-Drawer-root{
+    --mb-z-index: 1000 !important;
+}
+.mantine-Drawer-inner > .mantine-Drawer-content{
+    background: linear-gradient(to left, #100dd1, #0d3bd1);
+    position: relative;
+}
+.side-close-btn{
+    position: fixed;
+	bottom: 30px;
+	left: 170px;
+	background-color: #00b894;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	text-align: center;
+	color: #ffffff;
+	line-height: 42px;
+	z-index: 10;
+	cursor: pointer;
+	font-size: 1.25rem;
+}
+.side-close-btn:hover, .side-close-btn:focus{
+    background-color: #020310;
+}
