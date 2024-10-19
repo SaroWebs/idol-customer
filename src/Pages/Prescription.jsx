@@ -8,7 +8,7 @@ const Prescription = () => {
 
 
     return (
-        <MasterLayout>
+        <MasterLayout title="Prescription">
             <ShowPrescription code={code} />
         </MasterLayout>
     )

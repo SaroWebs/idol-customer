@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { API_HOST } from '../../config/config';
@@ -33,22 +33,20 @@ const Login = () => {
       setResendOtp(true);
     }
     return () => clearInterval(interval);
-  }, [timer]);
+  }, [timer, isOtpSent]);
 
   useEffect(() => {
-    localStorage.setItem('isOtpSent', isOtpSent.toString());
-    localStorage.setItem('isVerified', isVerified.toString());
+    localStorage.setItem('isOtpSent', isOtpSent ? 'true':'false');
+    localStorage.setItem('isVerified', isVerified ? 'true':'false');
     localStorage.setItem('phone', phone);
   }, [isOtpSent, isVerified, phone]);
 
   useEffect(() => {
     if (isAuthenticated) {
       navigate('/');
-    }else{
-      localStorage.removeItem('isOtpSent')
-      localStorage.removeItem('isVerified')
+      window.location.reload(); // Force page reload after login
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate]);
 
   const handlePhoneChange = (e) => {
     setPhone(e.target.value);
@@ -56,18 +54,17 @@ const Login = () => {
 
   const sendOtp = async () => {
     try {
-      const response = await axios.post(`${API_HOST}/sendotp`, { phone: phone });
+      const response = await axios.post(`${API_HOST}/sendotp`, { phone });
       if (response.status === 200) {
         setIsOtpSent(true);
         setTimer(60);
         setError('');
-        console.log(response);
         alert(`Your OTP is : ${response.data.otp}`);
         if (response.data.isNewUser) {
           setIsNewUser(true);
         }
       } else {
-        setError(response.data.message);
+        setError(response.data.message || 'Error sending OTP');
       }
     } catch (error) {
       setError('Failed to send OTP. Please try again.');
@@ -77,33 +74,26 @@ const Login = () => {
   const verifyOtp = async () => {
     try {
       const payload = {
-        phone: phone,
-        otp: otp
+        phone,
+        otp,
+        ...(isNewUser && { name, email }) // Include name and email if it's a new user
       };
-
-      // If it's a new user, include name and email in the payload
-      if (isNewUser) {
-        payload.name = name;
-        payload.email = email;
-      }
 
       const response = await axios.post(`${API_HOST}/verifyotp`, payload);
 
       if (response.data.success) {
+        localStorage.setItem('isVerified', 'true');
         setIsVerified(true);
-        let token = response.data.token;
+        const token = response.data.token;
         localStorage.setItem('token', token);
-        if(localStorage.getItem('token')){
-          window.location.href('/');
-        }else{
-          localStorage.setItem('token', token);
-          setError('Unexpected Error. Please retry!');
-        }
+        setIsAuthenticated(true);
+        navigate('/');
+        window.location.reload(); // Reload after login success
       } else {
+        localStorage.setItem('isVerified', 'false');
         setError('Invalid OTP');
       }
     } catch (error) {
-      console.error('Error verifying OTP:', error);
       setError('Error verifying OTP. Please try again.');
     }
   };
@@ -114,7 +104,6 @@ const Login = () => {
       newOtp[index] = value;
       setOtp(newOtp.join(''));
 
-      // Move focus to the next input
       if (value !== '' && index < 3) {
         const nextInput = document.getElementById(`otp-${index + 1}`);
         if (nextInput) {
@@ -227,7 +216,7 @@ const Login = () => {
               </>
             )}
 
-            {isVerified && (
+            {isOtpSent && isVerified && (
               <div className="text-start px-4">
                 <h5 className="mb-1 text-white">Login Successful</h5>
                 <p className="mb-4 text-white">You have successfully logged in.</p>
@@ -243,7 +232,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

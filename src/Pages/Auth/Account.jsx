@@ -1,9 +1,9 @@
 import React from 'react'
-import MasterLayout from '../Layouts/MasterLayout'
+import MasterLayout from '../../Layouts/MasterLayout'
 
 const Account = () => {
   return (
-    <MasterLayout>
+    <MasterLayout  title="Account">
       <div className="">
         Account
       </div>

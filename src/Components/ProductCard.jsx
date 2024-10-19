@@ -1,27 +1,38 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Remove Link as it's not used
+import { useNavigate } from 'react-router-dom';
 import { STORAGE_PATH } from '../config/config';
 import { useCart } from '../contexts/CartContext';
+import { useAuth } from '../contexts/AuthContext';
 
 const ProductCard = ({ product }) => {
-    const { addToCart } = useCart();
+    const { inCart, addToCart, removeFromCart } = useCart();
+    const {isAuthenticated}=useAuth()
     const navigate = useNavigate();
 
-    const handleAddToCart = (event) => {
-        event.stopPropagation();
-        addToCart(product.id);
-    };
-
     const handleRedirectToProduct = (event) => {
-        event.preventDefault(); // Prevent anchor default action
-        if (!event.target.closest('.addtocartbtn')) { // Check if clicked element is not 'Add to Cart' button
+        event.preventDefault();
+        if (!event.target.closest('.addtocartbtn') && !event.target.closest('.removefromcartbtn')) {
             navigate(`/product/${product.id}`);
         }
     };
 
+    const handleAddToCart = (event) => {
+        event.stopPropagation(); // Prevent the redirect
+        if(isAuthenticated){
+            addToCart(product.id);
+        }else{
+            navigate('/login');
+        }
+    };
+
+    const handleRemoveFromCart = (event) => {
+        event.stopPropagation(); // Prevent the redirect
+        removeFromCart(product.id);
+    };
+
     return (
         <div className="card tp-card col-6 col-md-3">
-            <a onClick={handleRedirectToProduct} href="javascript:void(0);" className="card-body product">
+            <div onClick={handleRedirectToProduct} className="card-body product">
                 {product.images.length > 0 ? (
                     <img src={`${STORAGE_PATH}/${product.images[0].image_path}`} alt={product.name} />
                 ) : (
@@ -47,12 +58,18 @@ const ProductCard = ({ product }) => {
                     </div>
                 ) : (
                     <div className="d-flex justify-content-center align-items-center p-1">
-                        <button onClick={handleAddToCart} className="btn btn-danger btn-sm addtocartbtn">
-                            Add to Cart
-                        </button>
+                        {inCart(product.id) ? (
+                            <button onClick={handleRemoveFromCart} className="btn btn-sm btn-danger removefromcartbtn">
+                                Remove from Cart
+                            </button>
+                        ) : (
+                            <button onClick={handleAddToCart} className="btn btn-danger btn-sm addtocartbtn">
+                                Add to Cart
+                            </button>
+                        )}
                     </div>
                 )}
-            </a>
+            </div>
         </div>
     );
 };

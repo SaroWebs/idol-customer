@@ -28,18 +28,8 @@ const Orders = () => {
   }, [])
 
   return (
-    <MasterLayout>
+    <MasterLayout title="Orders">
       <div className="container">
-        <div className="page-header">
-          <div className="d-flex px-2" >
-            <div className="back-button"></div>
-            <div className="">
-              <div className="title">
-                <h2>Your Orders</h2>
-              </div>
-            </div>
-          </div>
-        </div>
         {(!orders || orders.length < 1) ? (
           <div className="card coupon-card mb-3">
             <div className="card-body d-flex flex-column align-items-center" style={{ gap: '1rem' }}>

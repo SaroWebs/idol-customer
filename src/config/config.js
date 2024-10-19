@@ -1,5 +1,3 @@
-export const API_HOST = 'https://admintest.idolpharma.in/api';
-export const STORAGE_PATH = 'https://admintest.idolpharma.in/storage';
-// export const API_HOST = 'http://localhost:8000/api';
-// export const STORAGE_PATH = 'http://localhost:8000/storage';
-export const APP_NAME = 'Idol Pharma';
+export const API_HOST = import.meta.env.VITE_API_HOST;
+export const STORAGE_PATH = import.meta.env.VITE_STORAGE_PATH;
+export const APP_NAME = import.meta.env.VITE_APP_NAME;

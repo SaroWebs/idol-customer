@@ -14,24 +14,25 @@ import { CSS } from '@dnd-kit/utilities';
 import ShowPrescription from './ShowPrescription';
 
 const SortableItem = ({ id, preview }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
-  
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
+    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
 
-  return (
-    <div className="col-4 col-lg-3 mb-4" ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <div className="card">
-        <img src={preview} alt={`Preview ${id}`} className="card-img-top" />
-        <div className="card-footer">Page : {id + 1}</div>
-      </div>
-    </div>
-  );
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    };
+
+    return (
+        <div className="col-4 col-lg-3 mb-4" ref={setNodeRef} style={style} {...attributes} {...listeners}>
+            <div className="card">
+                <img src={preview} alt={`Preview ${id}`} className="card-img-top" />
+                <div className="card-footer">Page : {id + 1}</div>
+            </div>
+        </div>
+    );
 };
 
-const PrescriptionUpload = ({ type, isLoading, setIsLoading }) => {
+const PrescriptionUpload = (props) => {
+    const { type, text, isLoading, setIsLoading, order_no = '' } = props;
     const { cart } = useCart();
     const [opened, { open, close }] = useDisclosure();
     const [images, setImages] = useState([]);
@@ -94,6 +95,9 @@ const PrescriptionUpload = ({ type, isLoading, setIsLoading }) => {
         images.forEach((image) => {
             formData.append('images[]', image);
         });
+        if (type == 'assigned') {
+            formData.append('order_no', order_no);
+        }
         formData.append('status', type);
 
         setIsLoading(true);
@@ -112,6 +116,9 @@ const PrescriptionUpload = ({ type, isLoading, setIsLoading }) => {
             console.error('Upload error:', err);
         } finally {
             setIsLoading(false);
+            if (type == 'unassigned') {
+                props.reload();
+            }
         }
     };
 
@@ -130,20 +137,31 @@ const PrescriptionUpload = ({ type, isLoading, setIsLoading }) => {
 
     return (
         <>
-            {type == 'pending' ? prescription ? (
+            {type == 'pending' && (
                 <div className='d-flex justify-content-between'>
-                    <p>Already uploaded <ShowPrescription type={'span'} text='View Prescription' code={prescription.group_code}/> </p>
+                    {prescription &&
+                        <p>Already uploaded <ShowPrescription type={'span'} text='View Prescription' code={prescription.group_code} /> </p>
+                    }
                     <div>
-                        <button onClick={open} className='btn btn-danger btn-sm'>Update</button>
+                        <button onClick={open} className='btn btn-danger btn-sm'>
+                            {text ? text : prescription ? 'Change' : 'Upload'}
+                        </button>
                     </div>
                 </div>
-            ) : (
-                <div>
-                    <button onClick={open} className='btn btn-danger btn-sm'>Upload</button>
+            )}
+            {type == 'unassigned' && (
+                <div className='d-flex justify-content-center'>
+
+                    <button onClick={open} className='btn btn-danger'>
+                        {text ? text : prescription ? 'Change' : 'Upload'}
+                    </button>
                 </div>
-            ) : (
+            )}
+            {type == 'assigned' && (
                 <div>
-                    <button onClick={open} className='btn btn-danger btn-sm'>Upload</button>
+                    <button onClick={open} className='btn btn-danger btn-sm'>
+                        {text ? text : 'Upload'}
+                    </button>
                 </div>
             )}
 
@@ -171,7 +189,9 @@ const PrescriptionUpload = ({ type, isLoading, setIsLoading }) => {
                         </SortableContext>
                     </DndContext>
                     <div className="d-flex justify-content-end mt-4">
-                        <button onClick={handleUpload} className='btn btn-primary btn-sm'>Confirm Upload</button>
+                        {previews.length > 0 &&
+                            <button onClick={handleUpload} disabled={isLoading} className='btn btn-primary btn-sm'>Confirm Upload</button>
+                        }
                         <button onClick={close} className='btn btn-secondary ms-3 btn-sm'>Cancel</button>
                     </div>
                 </div>

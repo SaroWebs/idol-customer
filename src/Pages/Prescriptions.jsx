@@ -33,17 +33,10 @@ const Prescriptions = () => {
 
 
   return (
-    <MasterLayout>
+    <MasterLayout title="Prescriptions">
       <div className="page-content-wrapper">
         <div className="blog-wrapper">
           <div className="container my-2">
-            <div className="page-header">
-              <div className="">
-                <div className="title">
-                  <h2>Prescriptions</h2>
-                </div>
-              </div>
-            </div>
             {prescGroup.length < 1 ?
               <div className="col-md-12">
                 <div className="card coupon-card mb-3">
@@ -60,24 +53,18 @@ const Prescriptions = () => {
                         <div className="row g-2">
                           {pgr.prescriptions.map(prs => (
                             <div key={prs.id} className={`col-${pgr.prescriptions.length > 1 ? 6 : 12}`}>
-                              <Link
-                                to={STORAGE_PATH + '/' + prs.file_path}
-                                className="fancybox"
-                                data-fancybox-group={prs.group_code}
-                                title={prs.group_code}
-                              >
-                                <img
-                                  className="img-fluid"
-                                  src={STORAGE_PATH + '/' + prs.file_path}
-                                  alt="prescription"
-                                  style={{ maxWidth: '100%' }}
-                                />
-                                
-                              </Link>
+
+                              <img
+                                className="img-fluid"
+                                src={STORAGE_PATH + '/' + prs.file_path}
+                                alt="prescription"
+                                style={{ maxWidth: '100%' }}
+                              />
+
                             </div>
                           ))}
                         </div>
-                        <ShowPrescription type="button" text='View' code={pgr.group_code}/>
+                        <ShowPrescription type="button" text='View' code={pgr.group_code} />
                       </div>
                     </div>
                   ))}
@@ -86,11 +73,13 @@ const Prescriptions = () => {
           </div>
         </div>
 
-        <div className="d-flex my-4">
+        <div className="d-flex justify-content-center my-4" style={{ width: '100%' }}>
           <PrescriptionUpload
             type='unassigned'
+            text='Upload Prescription'
             isLoading={isLoading}
             setIsLoading={setIsLoading}
+            reload={getData}
           />
         </div>
       </div>

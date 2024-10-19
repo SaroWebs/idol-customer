@@ -6,7 +6,7 @@ import TopProducts from '../Components/TopProducts'
 
 const Home = () => {
   return (
-    <MasterLayout>
+    <MasterLayout title='home'>
       <div className="page-content-wrapper">
         <HomeSlider />
         <ProductCategoryWrapper />

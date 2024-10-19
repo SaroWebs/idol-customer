@@ -1,6 +1,30 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper-bundle.css'; // Make sure to import Swiper styles
+import { API_HOST, STORAGE_PATH } from '../config/config'; // Adjust the import based on your folder structure
+import { Link } from 'react-router-dom';
+import { Navigation } from 'swiper/modules';
 
 const ProductCategoryWrapper = () => {
+    const [categories, setCategories] = useState([]);
+
+    const getData = () => {
+        axios.get(`${API_HOST}/categories/all`)
+            .then(res => {
+                setCategories(res.data);
+            })
+            .catch(err => {
+                console.log('Error getting categories', err);
+            });
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+    if (!categories || categories.length < 1) return null;
+
     return (
         <div className="product-category-wrapper py-3">
             <div className="container">
@@ -12,11 +36,38 @@ const ProductCategoryWrapper = () => {
                     </div>
                 </div>
                 <div className="product-category-wrap">
-                    {/*  */}
+                    <Swiper
+                        modules={[Navigation]}
+                        spaceBetween={10}
+                        slidesPerView={3.2}
+                        loop={true}
+                        autoplay={{ delay: 3000 }}
+                        pagination={{ clickable: true }}
+                        navigation={{
+                            nextEl: '.catNext',
+                            prevEl: '.catPrev',
+                        }}
+                    >
+                        {categories.map((category, index) => (
+                            <SwiperSlide key={index}
+                                className='d-flex align-items-end justify-content-center'
+                                style={{ background: '#fff', height: '110px', borderRadius: '12px' }}
+                            >
+                                <Link to={`/category/${category.id}/products`} className="d-flex flex-column align-items-center justify-content-center category-block">
+                                    <img
+                                        src={`${STORAGE_PATH + category.icon_path}`} // Adjust the path if needed
+                                        alt={category.name}
+                                        style={{ width: '75px', objectFit: 'cover' }}
+                                    />
+                                    <h6 style={{ fontSize: '0.7rem', textAlign: 'center' }}>{category.name}</h6>
+                                </Link>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default ProductCategoryWrapper
+export default ProductCategoryWrapper;

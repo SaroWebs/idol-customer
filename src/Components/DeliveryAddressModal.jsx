@@ -76,10 +76,8 @@ const DeliveryAddressModal = (props) => {
                 },
             });
             // Check for success response
-            if (response.status === 200) {
-                // Fetch updated address list
+            if (response.status == 200 || response.status == 201) {
                 await fetchAddresses();
-                // Reset form
                 setFormInfo({
                     address_line_1: '',
                     address_line_2: '',

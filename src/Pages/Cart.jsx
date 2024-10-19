@@ -40,16 +40,16 @@ const Cart = () => {
   const fetchAddresses = async () => {
     const token = localStorage.getItem('token');
     try {
-        const response = await axios.get(`${API_HOST}/deliveryaddresses`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        });
-        setAddressList(response.data);
+      const response = await axios.get(`${API_HOST}/deliveryaddresses`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      setAddressList(response.data);
     } catch (error) {
-        console.error('Error fetching addresses:', error);
+      console.error('Error fetching addresses:', error);
     }
-};
+  };
 
   const total_qty = cart ? cart.reduce((acc, item) => acc + item.quantity, 0) : 0;
   const total_amount = cart ? cart.reduce((acc, item) => acc + (item.product.offer_price * item.quantity), 0) : 0;
@@ -57,22 +57,14 @@ const Cart = () => {
   const activeAddress = addressList ? addressList.find(address => address.active) : null; // Find the active address
 
   return (
-    <MasterLayout>
+    <MasterLayout title="Your Cart">
       <div className="container">
-        <div className="page-header">
-          <div className="d-flex" style={{ gap: '1.2rem' }}>
-            <div className="back-button"></div>
-            <div>
-              <div className="title">
-                <h2>Your Cart</h2>
-              </div>
-              <p>
-                {cart && total_qty > 0 ?
-                  <span>You have {total_qty} items in your cart.</span>
-                  : 'Your cart is empty !'}
-              </p>
-            </div>
-          </div>
+        <div className='ms-4'>
+          <p>
+            {cart && total_qty > 0 ?
+              <span>You have {total_qty} items in your cart.</span>
+              : 'Your cart is empty !'}
+          </p>
         </div>
         {total_qty > 0 ?
           <div className="cart-wrapper-area py-3">
@@ -119,7 +111,7 @@ const Cart = () => {
                         </td>
                         <td className="text-center">₹ {item.product?.offer_price * item.quantity}</td>
                         <td>
-                          <button onClick={() => removeFromCart(item.id)} className="btn btn-danger btn-sm remove-from-cart"><i className="fa fa-trash-o"></i></button>
+                          <button onClick={() => removeFromCart(item.product_id)} className="btn btn-danger btn-sm remove-from-cart"><i className="fa fa-trash-o"></i></button>
                         </td>
                       </tr>
                     ))}
@@ -128,7 +120,7 @@ const Cart = () => {
               </div>
               <div className="card-body d-flex align-items-center justify-content-end">
                 <h5 className="total-price mb-0 someGrandTotalPrice" style={{ fontSize: '15px', marginLeft: '-6px' }}>
-                  Total amount: ₹ {total_amount}
+                  Total amount: ₹ {total_amount.toFixed(2)}
                 </h5>
               </div>
               {activeAddress ? // Check if there is an active address
@@ -136,14 +128,14 @@ const Cart = () => {
                   <div className="card-body d-flex align-items-center justify-content-between border shadow">
                     <div className="w-100">
                       <div className="d-flex justify-content-between">
-                      <h6>Delivery Address:</h6>
+                        <h6>Delivery Address:</h6>
 
-                      <DeliveryAddressModal 
-                        text={"Change Address"} 
-                        type={"select"} 
-                        addressList={addressList} 
-                        setAddressList={setAddressList}
-                        fetchAddresses={fetchAddresses}
+                        <DeliveryAddressModal
+                          text={"Change Address"}
+                          type={"select"}
+                          addressList={addressList}
+                          setAddressList={setAddressList}
+                          fetchAddresses={fetchAddresses}
                         />
 
                       </div>
@@ -161,9 +153,9 @@ const Cart = () => {
                 <div className="card-body d-flex align-items-center justify-content-between">
                   <Link to="/" className="btn btn-success btn-sm">Add More Medicines</Link>
                   {addressList && addressList ?
-                    <DeliveryAddressModal text={"Select Address"} type={"select"} addressList={addressList} setAddressList={setAddressList} fetchAddresses={fetchAddresses}/>
+                    <DeliveryAddressModal text={"Select Address"} type={"select"} addressList={addressList} setAddressList={setAddressList} fetchAddresses={fetchAddresses} />
                     :
-                    <DeliveryAddressModal text={"Add Delivery Address"} type={"add"} addressList={addressList} setAddressList={setAddressList} fetchAddresses={fetchAddresses}/>
+                    <DeliveryAddressModal text={"Add Delivery Address"} type={"add"} addressList={addressList} setAddressList={setAddressList} fetchAddresses={fetchAddresses} />
                   }
                 </div>
               }

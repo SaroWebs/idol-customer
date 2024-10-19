@@ -3,11 +3,12 @@ import MasterLayout from '../Layouts/MasterLayout'
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_HOST, STORAGE_PATH } from '../config/config';
+import PrescriptionUpload from '../Components/PrescriptionUpload';
 
 const Order = () => {
     const { id } = useParams();
     const [order, setOrder] = useState();
-
+    const [prescLoading, setPrescLoading] = useState(false);
 
     const fetchData = () => {
         let token = localStorage.getItem('token');
@@ -29,7 +30,7 @@ const Order = () => {
     }, [])
 
     if (!order || !order.id) return (
-        <MasterLayout>
+        <MasterLayout title="Return to orders">
             <div className="page-content-wrapper row">
                 <div className="col-12">
                     <div className="card">
@@ -46,7 +47,7 @@ const Order = () => {
 
 
     return (
-        <MasterLayout>
+        <MasterLayout title={`Order: ${order.order_no}`}>
             <div className="page-content-wrapper row">
                 {/* order details and then loop order items */}
                 <div className="col-12">
@@ -62,11 +63,11 @@ const Order = () => {
                                 <div className="">
                                     {prec ? order.prescription ? (
                                         <div className="">
-                                            <button className="btn btn-sm btn-warning">Change Prescription</button>
+                                            <PrescriptionUpload type='assigned' text="Change Prescription" isLoading={prescLoading} setIsLoading={setPrescLoading} order_no={order.order_no} />
                                         </div>
                                     ) : (
                                         <div className="">
-                                            <button className="btn btn-sm btn-danger">Upload Prescription</button>
+                                            <PrescriptionUpload type='assigned' text="Upload Prescription" isLoading={prescLoading} setIsLoading={setPrescLoading} order_no={order.order_no} />
                                         </div>
                                     ) : null}
                                 </div>

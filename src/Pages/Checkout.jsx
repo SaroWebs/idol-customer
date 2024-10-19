@@ -7,7 +7,7 @@ import PrescriptionUpload from '../Components/PrescriptionUpload';
 
 const Checkout = () => {
     const { cart, updateCart, removeFromCart } = useCart();
-    const { user } = useAuth();
+    const { user, refreshAuth } = useAuth();
     const [localQuantities, setLocalQuantities] = useState({});
     const [paymentMode, setPaymentMode] = useState('Cash'); 
     const [isLoading, setIsLoading]=useState(false);
@@ -20,6 +20,7 @@ const Checkout = () => {
             });
             setLocalQuantities(initialQuantities);
         }
+        refreshAuth();
     }, [cart]);
 
     const handleChangeQuantity = (e, itemId) => {
@@ -42,7 +43,7 @@ const Checkout = () => {
     const activeAddress = (user && user.addresses) ? user.addresses.find(address => address.active) : null; // Find the active address
 
     return (
-        <MasterLayout>
+        <MasterLayout  title="Checkout">
             <div className="container">
                 <div className="page-header">
                     <div className="d-flex px-1">
@@ -112,7 +113,7 @@ const Checkout = () => {
                                                         </td>
                                                         <td className="text-center">₹ {item.product?.offer_price * item.quantity}</td>
                                                         <td>
-                                                            <button onClick={() => removeFromCart(item.id)} className="btn btn-danger btn-sm remove-from-cart"><i className="fa fa-trash-o"></i></button>
+                                                            <button onClick={() => removeFromCart(item.product_id)} className="btn btn-danger btn-sm remove-from-cart"><i className="fa fa-trash-o"></i></button>
                                                         </td>
                                                     </tr>
                                                 ))}
