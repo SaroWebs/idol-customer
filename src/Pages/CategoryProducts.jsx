@@ -7,16 +7,21 @@ import { useParams } from 'react-router-dom';
 
 const CategoryProducts = () => {
     const { id } = useParams();
-
-    const [items, setItems] = useState(null); // paginated data
+    const [items, setItems] = useState(null);
+    const [loading, setLoading]=useState(false);
+    const [pageTitle, setTitle]=useState('Category');
 
     const getItems = (page = 1) => {
+        setLoading(true);
         axios.get(`${API_HOST}/products?page=${page}&category=${id}`)
             .then(res => {
                 setItems(res.data);
             })
             .catch(err => {
                 console.log(err.message);
+            })
+            .finally(()=>{
+                setLoading(false);
             });
     };
 
@@ -27,13 +32,22 @@ const CategoryProducts = () => {
     };
 
     useEffect(() => {
+        let itm = items && items.category ? items.category.name : 'Category';
+        setTitle(itm);
+    }, [items]);
+
+    useEffect(() => {
         getItems();
     }, []);
 
     return (
-        <MasterLayout title={'Category'}>
+        <MasterLayout title={pageTitle}>
             <div className="page-content-wrapper">
-                {!items ? 'Loading...' : (
+                {loading || !items ? (
+                    <div className="">
+                        {loading ? 'loading..' : 'no-product'}
+                    </div>
+                ) : (
                     <div className="top-products-area clearfix">
                         <div className="container">
                             <p className="py-2">

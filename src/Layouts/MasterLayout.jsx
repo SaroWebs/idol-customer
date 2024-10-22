@@ -18,9 +18,9 @@ const MasterLayout = (props) => {
 
     return (
         <div className="position-relative">
-            {loading && (
+            {loading && loading.active && (
                 <div className="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-40" style={{zIndex:9999999999}}>
-                    <span style={{ color: 'white' }}>loading...</span>
+                    <span style={{ color: 'white' }}>{loading.description}</span>
                 </div>
             )}
 
@@ -32,7 +32,7 @@ const MasterLayout = (props) => {
                 isOpen={opened}
                 closeSidebar={close}
             />
-            <div className="" style={{ marginTop: '4rem', marginBottom: '4rem', minHeight: '90vh', background: '#bebebe' }}>
+            <div className="" style={{ marginTop: '3rem', marginBottom: '3.5rem', minHeight: '90vh', background: '#bebebe' }}>
 
                 {(title && title !== 'home') ? (
                     <div className="page-header">

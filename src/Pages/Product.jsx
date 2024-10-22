@@ -9,11 +9,12 @@ import 'swiper/swiper-bundle.css';
 
 const Product = () => {
     const { id } = useParams();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [product, setProduct] = useState(null);
     const { addToCart, inCart, removeFromCart } = useCart();
 
     const getItem = () => {
+        setLoading(true);
         axios.get(`${API_HOST}/product/${id}`)
             .then(res => {
                 setProduct(res.data);
@@ -23,6 +24,7 @@ const Product = () => {
                 setLoading(false);
             });
     }
+
     useEffect(() => {
         if (id) {
             getItem();

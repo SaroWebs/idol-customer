@@ -9,19 +9,29 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // State to track loading status
+  const [loading, setLoading] = useState({
+    active:false,
+    description:''
+  });
 
   useEffect(() => {
     refreshAuth();
   }, []);
 
   const refreshAuth = () => {
+    setLoading({
+      active:true,
+      description:'Validating User..'
+    });
     const token = localStorage.getItem('token');
 
     if (!token) {
       setIsAuthenticated(false);
       setUser(null);
-      setLoading(false); // Authentication check is complete
+      setLoading({
+        active:false,
+        description:'Unauthenticated'
+      });
     } else {
       axios.get(`${API_HOST}/authenticate`, {
         headers: {
@@ -32,17 +42,27 @@ export const AuthProvider = ({ children }) => {
           if (res.data) {
             setIsAuthenticated(true);
             setUser(res.data);
+            setLoading({
+              active:false,
+              description:'Could not verify user'
+            });
           }
         })
         .catch(error => {
           console.log('error');
           setIsAuthenticated(false);
           setUser(null);
-          setLoading(false);
+          setLoading({
+            active:false,
+            description:'Unauthenticated'
+          });
         })
         .finally((response) => {
           console.log(response);
-          setLoading(false);
+          setLoading({
+            ...loading,
+            active:false,
+          });
         });
     }
   }
@@ -55,6 +75,10 @@ export const AuthProvider = ({ children }) => {
     localStorage.clear();
     setIsAuthenticated(false); // Update state
     setUser(null); // Clear user information
+    setLoading({
+      active:false,
+      description:'User logged out'
+    });
   };
 
   // Return the logout method in the context

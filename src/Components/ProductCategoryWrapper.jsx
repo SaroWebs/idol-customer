@@ -53,14 +53,25 @@ const ProductCategoryWrapper = () => {
                                 className='d-flex align-items-end justify-content-center'
                                 style={{ background: '#fff', height: '110px', borderRadius: '12px' }}
                             >
-                                <Link to={`/category/${category.id}/products`} className="d-flex flex-column align-items-center justify-content-center category-block">
-                                    <img
-                                        src={`${STORAGE_PATH + category.icon_path}`} // Adjust the path if needed
-                                        alt={category.name}
-                                        style={{ width: '75px', objectFit: 'cover' }}
-                                    />
-                                    <h6 style={{ fontSize: '0.7rem', textAlign: 'center' }}>{category.name}</h6>
-                                </Link>
+                                {category.id == 1 || category.name == 'all' ? (
+                                    <Link to={`/products`} className="d-flex flex-column align-items-center justify-content-center category-block">
+                                        <img
+                                            src={`${STORAGE_PATH + category.icon_path}`} // Adjust the path if needed
+                                            alt={category.name}
+                                            style={{ width: '75px', objectFit: 'cover' }}
+                                        />
+                                        <h6 style={{ fontSize: '0.7rem', textAlign: 'center' }}>{category.name}</h6>
+                                    </Link>
+                                ) : (
+                                    <Link to={`/category/${category.id}/products`} className="d-flex flex-column align-items-center justify-content-center category-block">
+                                        <img
+                                            src={`${STORAGE_PATH + category.icon_path}`} // Adjust the path if needed
+                                            alt={category.name}
+                                            style={{ width: '75px', objectFit: 'cover' }}
+                                        />
+                                        <h6 style={{ fontSize: '0.7rem', textAlign: 'center' }}>{category.name}</h6>
+                                    </Link>
+                                )}
                             </SwiperSlide>
                         ))}
                     </Swiper>
