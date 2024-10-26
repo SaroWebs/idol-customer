@@ -32,7 +32,7 @@ const MasterLayout = (props) => {
                 isOpen={opened}
                 closeSidebar={close}
             />
-            <div className="" style={{ marginTop: '3rem', marginBottom: '3.5rem', minHeight: '90vh', background: '#bebebe' }}>
+            <div className="bg-white" style={{ marginTop: '3rem', marginBottom: '3.5rem', minHeight: '90vh', background: '#bebebe' }}>
 
                 {(title && title !== 'home') ? (
                     <div className="page-header">

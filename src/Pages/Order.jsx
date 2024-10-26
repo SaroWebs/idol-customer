@@ -75,7 +75,7 @@ const Order = () => {
                             {order.order_items && order.order_items.map((item, i) => (
                                 <div className="row" key={i}>
                                     <div className="col-4 col-md-3">
-                                        <Link to={`/prduct/${item.product.id}`} className="product-thumbnail d-block">
+                                        <Link to={`/product/${item.product.id}`} className="product-thumbnail d-block">
                                             {item.product.images.length > 0 ?
                                                 <img src={STORAGE_PATH + '/' + item.product.images[0].image_path} alt="Product" className="mb-2" />
                                                 :
@@ -84,7 +84,7 @@ const Order = () => {
                                         </Link>
                                     </div>
                                     <div className="col-8 col-md-9">
-                                        <Link to={`/prduct/${item.product.id}`} className="product-title text-capitalize">
+                                        <Link to={`/product/${item.product.id}`} className="product-title text-capitalize">
                                             {item.product.name}
                                         </Link>
                                         <p className="track-offer">

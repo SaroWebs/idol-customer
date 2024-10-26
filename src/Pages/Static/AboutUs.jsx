@@ -5,7 +5,7 @@ const AboutUs = () => {
   return (
     <MasterLayout title="About Us">
 
-     <div className="Contact-us-wrapper px-3 py-3">
+     <div className="Contact-us-wrapper p-3">
       <h1>About IDOL PHARMA</h1>
       <p>IDOL PHARMA is one of the most trusted medicine stores in Guwahati, Assam. It is managed by two motivated entrepreneurs from Guwahati.</p>
       

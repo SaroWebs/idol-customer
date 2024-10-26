@@ -10,8 +10,8 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState({
-    active:false,
-    description:''
+    active: false,
+    description: ''
   });
 
   useEffect(() => {
@@ -20,17 +20,18 @@ export const AuthProvider = ({ children }) => {
 
   const refreshAuth = () => {
     setLoading({
-      active:true,
-      description:'Validating User..'
+      active: true,
+      description: 'Validating User..'
     });
+    localStorage.removeItem('isOtpSent')
+    localStorage.removeItem('isVerified')
     const token = localStorage.getItem('token');
 
     if (!token) {
-      setIsAuthenticated(false);
-      setUser(null);
+      logout();
       setLoading({
-        active:false,
-        description:'Unauthenticated'
+        active: false,
+        description: 'Unauthenticated'
       });
     } else {
       axios.get(`${API_HOST}/authenticate`, {
@@ -43,25 +44,23 @@ export const AuthProvider = ({ children }) => {
             setIsAuthenticated(true);
             setUser(res.data);
             setLoading({
-              active:false,
-              description:'Could not verify user'
+              active: false,
+              description: ''
             });
           }
         })
         .catch(error => {
-          console.log('error');
           setIsAuthenticated(false);
           setUser(null);
           setLoading({
-            active:false,
-            description:'Unauthenticated'
+            active: false,
+            description: 'Unauthenticated'
           });
         })
         .finally((response) => {
-          console.log(response);
           setLoading({
             ...loading,
-            active:false,
+            active: false,
           });
         });
     }
@@ -76,8 +75,8 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false); // Update state
     setUser(null); // Clear user information
     setLoading({
-      active:false,
-      description:'User logged out'
+      active: false,
+      description: 'User logged out'
     });
   };
 

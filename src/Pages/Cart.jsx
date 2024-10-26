@@ -5,11 +5,13 @@ import DeliveryAddressModal from '../Components/DeliveryAddressModal';
 import axios from 'axios';
 import { API_HOST } from '../config/config';
 import { Link } from 'react-router-dom';
+import PrescriptionUpload from '../Components/PrescriptionUpload';
 
 const Cart = () => {
   const { cart, updateCart, removeFromCart } = useCart();
   const [localQuantities, setLocalQuantities] = useState({});
   const [addressList, setAddressList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (cart) {
@@ -53,8 +55,8 @@ const Cart = () => {
 
   const total_qty = cart ? cart.reduce((acc, item) => acc + item.quantity, 0) : 0;
   const total_amount = cart ? cart.reduce((acc, item) => acc + (item.product.offer_price * item.quantity), 0) : 0;
-
   const activeAddress = addressList ? addressList.find(address => address.active) : null; // Find the active address
+  const presc = cart ? cart.some(item => item.product.prescription == 1) : false;
 
   return (
     <MasterLayout title="Your Cart">
@@ -123,6 +125,23 @@ const Cart = () => {
                   Total amount: ₹ {total_amount.toFixed(2)}
                 </h5>
               </div>
+              {/* prescription */}
+              {presc ? (
+                <div className="shipping-method-choose mb-3">
+                  <div className="card shipping-method-choose-card">
+                    <div className="card-body">
+                      <div className="d-flex flex-column">
+                        <p>Upload prescription</p>
+                        <PrescriptionUpload
+                          type='pending'
+                          isLoading={isLoading}
+                          setIsLoading={setIsLoading}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
               {activeAddress ? // Check if there is an active address
                 <>
                   <div className="card-body d-flex align-items-center justify-content-between border shadow">
