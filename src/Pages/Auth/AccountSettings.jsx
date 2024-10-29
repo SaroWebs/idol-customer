@@ -42,6 +42,8 @@ const AccountSettings = () => {
   );
 };
 
+export default AccountSettings;
+
 const SettingCard = ({ title, icon, link }) => {
   return (
     <div className="card settings-card">
@@ -56,5 +58,3 @@ const SettingCard = ({ title, icon, link }) => {
     </div>
   );
 };
-
-export default AccountSettings;
