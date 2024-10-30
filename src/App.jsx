@@ -21,6 +21,7 @@ import PrivacyPolicy from './pages/Static/PrivacyPolicy.jsx'
 import ShippingPolicy from './pages/Static/ShippingPolicy.jsx'
 import Terms from './pages/Static/Terms.jsx'
 import AccountSettings from './Pages/Auth/AccountSettings.jsx'
+import MyProfile from './Pages/Auth/MyProfile.jsx'
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
         <Route path="/online-payment" element={<OnlinePayment />} />
         
         <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<MyProfile />} />
         <Route path="/account" element={<Account />} />
         <Route path="/settings" element={<AccountSettings />} />
 
