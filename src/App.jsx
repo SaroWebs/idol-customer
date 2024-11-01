@@ -22,6 +22,8 @@ import ShippingPolicy from './pages/Static/ShippingPolicy.jsx'
 import Terms from './pages/Static/Terms.jsx'
 import AccountSettings from './Pages/Auth/AccountSettings.jsx'
 import MyProfile from './Pages/Auth/MyProfile.jsx'
+import EditProfile from './Pages/Auth/EditProfile.jsx'
+import DeliveryAddress from './Pages/Auth/DeliveryAddress.jsx'
 
 function App() {
   return (
@@ -41,9 +43,10 @@ function App() {
         
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<MyProfile />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/account" element={<Account />} />
         <Route path="/settings" element={<AccountSettings />} />
-
+        <Route path="/DeliveryAddress" element={<DeliveryAddress />} />
 
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/refund-policy" element={<CancellationRefund />} />

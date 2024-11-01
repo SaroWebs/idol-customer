@@ -80,9 +80,13 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
+  const updateUser=(fd)=>{
+    // fd consists of
+  }
+
   // Return the logout method in the context
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, loading, setIsAuthenticated, setUser, logout, refreshAuth }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, loading, setIsAuthenticated, setUser, logout, refreshAuth,updateUser }}>
       {children}
     </AuthContext.Provider>
   );
