@@ -48,6 +48,7 @@ const HomeSlider = () => {
                                     height: 'auto',
                                     objectFit: 'cover',
                                 }}
+                                loading="lazy"
                             />
                         </SwiperSlide>
                     ))}

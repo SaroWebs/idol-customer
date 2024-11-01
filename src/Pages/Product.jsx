@@ -36,14 +36,14 @@ const Product = () => {
         <MasterLayout title={`${(loading && !product) ? 'Product' : product ? product.name : 'Back'}`}>
             {!loading && product ? (
                 <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-12 col-md-6">
                         {product.images.length > 0 ? <ProductImageSlider items={product.images} /> : (
                             <div className="single-product-slide">
-                                <img src="/assets/images/no-image.png" alt={product.name} />
+                                <img src="/assets/images/no-image.png" alt={product.name} loading="lazy"/>
                             </div>
                         )}
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-12 col-md-6">
                         <div className="product-description pb-3">
                             <div className="flas-sale-panel bg-white mb-3 p-3">
                                 <div className="container">
@@ -152,7 +152,7 @@ const ProductImageSlider = ({ items }) => {
             >
                 {items.map(item => (
                     <SwiperSlide key={item.id} style={{ overflow: 'hidden' }}>
-                        <img src={STORAGE_PATH + item.image_path} alt="product-image" />
+                        <img src={STORAGE_PATH +'/'+ item.image_path} alt="product-image" loading="lazy"/>
                     </SwiperSlide>
                 ))}
             </Swiper>

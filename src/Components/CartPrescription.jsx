@@ -127,7 +127,7 @@ const CartPrescription = ({ cart }) => {
                         <>
                             <div style={{ marginTop: '20px', marginBottom: '1rem' }}>
                                 <h4>Preview:</h4>
-                                <img src={preview} alt="Preview" style={{ maxWidth: '400px', width: '100%' }} />
+                                <img src={preview} alt="Preview" style={{ maxWidth: '400px', width: '100%' }} loading="lazy"/>
                             </div>
                             <div className="d-flex justify-content-end">
                                 <button onClick={handleUpload} className='btn btn-primary btn-sm'>Confirm Upload</button>

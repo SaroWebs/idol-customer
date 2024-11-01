@@ -59,6 +59,7 @@ const ProductCategoryWrapper = () => {
                                             src={`${STORAGE_PATH + category.icon_path}`} // Adjust the path if needed
                                             alt={category.name}
                                             style={{ width: '75px', objectFit: 'cover' }}
+                                            loading="lazy"
                                         />
                                         <h6 style={{ fontSize: '0.7rem', textAlign: 'center' }}>{category.name}</h6>
                                     </Link>
@@ -68,6 +69,7 @@ const ProductCategoryWrapper = () => {
                                             src={`${STORAGE_PATH + category.icon_path}`} // Adjust the path if needed
                                             alt={category.name}
                                             style={{ width: '75px', objectFit: 'cover' }}
+                                            loading="lazy"
                                         />
                                         <h6 style={{ fontSize: '0.7rem', textAlign: 'center' }}>{category.name}</h6>
                                     </Link>

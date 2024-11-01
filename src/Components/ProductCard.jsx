@@ -6,7 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 
 const ProductCard = ({ product }) => {
     const { inCart, addToCart, removeFromCart } = useCart();
-    const {isAuthenticated}=useAuth()
+    const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
 
     const handleRedirectToProduct = (event) => {
@@ -18,9 +18,9 @@ const ProductCard = ({ product }) => {
 
     const handleAddToCart = (event) => {
         event.stopPropagation(); // Prevent the redirect
-        if(isAuthenticated){
+        if (isAuthenticated) {
             addToCart(product.id);
-        }else{
+        } else {
             navigate('/login');
         }
     };
@@ -34,9 +34,17 @@ const ProductCard = ({ product }) => {
         <div className="card tp-card col-6 col-md-3">
             <div onClick={handleRedirectToProduct} className="card-body product">
                 {product.images.length > 0 ? (
-                    <img src={`${STORAGE_PATH}/${product.images[0].image_path}`} alt={product.name} />
+                    <img
+                        src={`${STORAGE_PATH}/${product.images[0].image_path}`}
+                        alt={product.name}
+                        loading="lazy" // Lazy load the image
+                    />
                 ) : (
-                    <img src="/assets/images/no-image.png" alt={product.name} />
+                    <img
+                        src="/assets/images/no-image.png"
+                        alt={product.name}
+                        loading="lazy" // Lazy load the image
+                    />
                 )}
                 <div className="product-details">
                     <h3>{product.name}</h3>

@@ -24,7 +24,7 @@ const SortableItem = ({ id, preview }) => {
     return (
         <div className="col-4 col-lg-3 mb-4" ref={setNodeRef} style={style} {...attributes} {...listeners}>
             <div className="card">
-                <img src={preview} alt={`Preview ${id}`} className="card-img-top" />
+                <img src={preview} alt={`Preview ${id}`} className="card-img-top" loading="lazy"/>
                 <div className="card-footer">Page : {id + 1}</div>
             </div>
         </div>

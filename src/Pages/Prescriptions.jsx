@@ -59,6 +59,7 @@ const Prescriptions = () => {
                                 src={STORAGE_PATH + '/' + prs.file_path}
                                 alt="prescription"
                                 style={{ maxWidth: '100%' }}
+                                loading="lazy"
                               />
 
                             </div>

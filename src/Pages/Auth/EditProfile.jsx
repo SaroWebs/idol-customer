@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { 
-    Container, 
-    Card, 
-    Title, 
-    TextInput, 
-    Button, 
-    FileInput, 
-    Group 
+import {
+    Container,
+    Card,
+    Title,
+    TextInput,
+    Button,
+    FileInput,
+    Group
 } from '@mantine/core';
 import MasterLayout from "../../Layouts/MasterLayout";
+import { API_HOST } from "../../config/config";
+import axios from "axios";
 
 const MyProfile = () => {
     const { user } = useAuth();
@@ -47,9 +49,24 @@ const MyProfile = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        //updateUser(formData); // Call your update function
-        console.log(formData);
-        
+        const token = localStorage.getItem('token');
+
+        axios.post(`${API_HOST}/customer/${user.id}/update`, {
+            name: formData.name,
+            phone: formData.phone,
+            email: formData.email,
+            image: formData.image.file
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(res => {
+                console.log(res.data);
+            })
+            .catch(err => {
+                console.log(err.message);
+            });
     };
 
     return (

@@ -44,7 +44,7 @@ const ShowPrescription = ({ type = 'button', text = 'Prescription', code }) => {
                     <div className="row g-5">
                         {pages.length > 0 && pages.map(px => (
                             <div className="col-12">
-                                <img src={STORAGE_PATH + '/' + px.file_path} alt="" />
+                                <img src={STORAGE_PATH + '/' + px.file_path} alt="" loading="lazy"/>
                             </div>
                         ))}
                     </div>
