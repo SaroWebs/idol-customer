@@ -14,24 +14,27 @@ const Account = () => {
 
   return (
     <MasterLayout title="Account">
-      <div className="login-wrapper d-flex align-items-center justify-content-center text-center">
+      <div className="login-wrapper bg-white d-flex align-items-center justify-content-center text-center">
         <div className="container">
-          <div className="settings-wrapper py-3">
+          <div className="settings-wrapper py-3 px-2">
 
             {/* Single Setting Cards */}
-            <SettingCard title="My Profile" icon="lni lni-use" link="/profile" />
-            <SettingCard title="Delivery Address" icon="lni lni-location-pin" link="/delivery-address" />
-            <SettingCard title="My Prescriptions" icon="lni lni-location-pin" link="/prescriptions" />
+            <SettingCard title="My Profile" icon="lni lni-user" link="/profile" />
+            <SettingCard title="Delivery Address" icon="lni lni-map-marker" link="/delivery-address" />
+            <SettingCard title="addDelivery Address" icon="lni lni-map-marker" link="/add-delivery-address" />
+            <SettingCard title="My Prescriptions" icon="lni lni-files" link="/prescriptions" />
             <SettingCard title="Privacy Policy" icon="lni lni-protection" link="/privacy-policy" />
             <SettingCard title="Terms & Conditions" icon="fa fa-question-circle-o" link="/terms" />
             <div className="card settings-card">
               <div className="card-body">
+              <a href="javascript:void(0);" onClick={handleLogout}>
                 <div className="single-settings d-flex align-items-center justify-content-between">
                   <div className="title"><i className='lni lni-power-switch'></i><span>Logout</span></div>
                   <div className="data-content">
-                    <a href="javascript:void(0);" onClick={handleLogout}><i className="lni lni-chevron-right"></i></a>
+                    <i className="lni lni-chevron-right"></i>
                   </div>
                 </div>
+              </a>
               </div>
             </div>
           </div>
@@ -47,12 +50,14 @@ const SettingCard = ({ title, icon, link }) => {
   return (
     <div className="card settings-card">
       <div className="card-body">
-        <div className="single-settings d-flex align-items-center justify-content-between">
-          <div className="title"><i className={icon}></i><span>{title}</span></div>
-          <div className="data-content">
-            <Link to={link}>Read<i className="lni lni-chevron-right"></i></Link>
+        <Link to={link}>
+          <div className="single-settings d-flex align-items-center justify-content-between">
+            <div className="title"><i className={icon}></i><span>{title}</span></div>
+            <div className="data-content">
+              <i className="lni lni-chevron-right"></i>
+            </div>
           </div>
-        </div>
+        </Link>
       </div>
     </div>
   );

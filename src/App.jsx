@@ -24,6 +24,7 @@ import AccountSettings from './Pages/Auth/AccountSettings.jsx'
 import MyProfile from './Pages/Auth/MyProfile.jsx'
 import EditProfile from './Pages/Auth/EditProfile.jsx'
 import DeliveryAddress from './Pages/Auth/DeliveryAddress.jsx'
+import AddDeliveryAddress from './Pages/Auth/addDeliveryAddress.jsx'
 
 function App() {
   return (
@@ -46,7 +47,8 @@ function App() {
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/account" element={<Account />} />
         <Route path="/settings" element={<AccountSettings />} />
-        <Route path="/DeliveryAddress" element={<DeliveryAddress />} />
+        <Route path="/delivery-address" element={<DeliveryAddress />} />
+        <Route path="/add-delivery-address" element={<AddDeliveryAddress />} />
 
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/refund-policy" element={<CancellationRefund />} />
