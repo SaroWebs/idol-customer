@@ -38,6 +38,7 @@ const ProductCard = ({ product }) => {
                         src={`${STORAGE_PATH}/${product.images[0].image_path}`}
                         alt={product.name}
                         loading="lazy" // Lazy load the image
+                        className='bg-white'
                     />
                 ) : (
                     <img

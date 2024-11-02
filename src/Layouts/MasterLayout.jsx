@@ -5,6 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import SideBar from '../Components/Navigation/SideBar';
 import { useDisclosure } from '@mantine/hooks';
 import { useNavigate } from 'react-router-dom';
+import { Loader } from '@mantine/core';
 
 const MasterLayout = (props) => {
     const { isAuthenticated, user, loading, logout } = useAuth();
@@ -19,8 +20,16 @@ const MasterLayout = (props) => {
     return (
         <div className="position-relative">
             {loading && loading.active && (
-                <div className="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-40" style={{zIndex:9999999999}}>
-                    <span style={{ color: 'white' }}>{loading.description}</span>
+                <div
+                    className="position-fixed top-0 start-0 d-flex justify-content-center align-items-center"
+                    style={{
+                        zIndex: 9999,
+                        width: '100vw',
+                        height: '100vh',
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    }}
+                >
+                    <Loader color="blue" size="lg" />
                 </div>
             )}
 
@@ -39,8 +48,7 @@ const MasterLayout = (props) => {
                         <div className="d-flex p-2 align-items-center" style={{ gap: '1rem' }}>
                             <div className="back-button">
                                 <button onClick={handleBack} style={{ border: 'none', background: 'transparent' }}>
-                                    <i
-                                        style={{ fontSize: 'xx-large', color: '#00b894' }}
+                                    <i style={{ fontSize: 'xx-large', color: '#00b894' }}
                                         className="fa fa-arrow-circle-left" aria-hidden="true"
                                     ></i>
                                 </button>

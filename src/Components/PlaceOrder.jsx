@@ -23,13 +23,28 @@ const PlaceOrder = ({ paymentMode = 'cash' }) => {
     const [orderInfo, setOrderInfo] = useState({});
 
 
-    const handleOrder = () => {
+    const handleOrder = async () => {
         localStorage.removeItem('orderInfo');
         if (paymentMode.toLocaleLowerCase() === 'cash') {
             processOrder();
         } else if (paymentMode.toLocaleLowerCase() === 'online') {
             localStorage.setItem('orderInfo', JSON.stringify(orderInfo));
-            window.location.href = `/online-payment?callbackUrl=${encodeURIComponent(window.location.origin+'/checkout')}`;
+            const options = {
+                method: 'post',
+                url: 'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay',
+                headers: {
+                    accept: 'text/plain',
+                    ContentType: 'application/json'
+                },
+                data: {}
+            };
+            axios.request(options)
+                .then(function (response) {
+                    console.log(response.data);
+                })
+                .catch(function (error) {
+                    console.error(error);
+                });
         }
     }
 

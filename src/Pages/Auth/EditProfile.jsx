@@ -12,9 +12,11 @@ import {
 import MasterLayout from "../../Layouts/MasterLayout";
 import { API_HOST } from "../../config/config";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const MyProfile = () => {
     const { user } = useAuth();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
         phone: '',
@@ -59,10 +61,12 @@ const MyProfile = () => {
         }, {
             headers: {
                 'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
             }
         })
             .then(res => {
                 console.log(res.data);
+                navigate('/profile');
             })
             .catch(err => {
                 console.log(err.message);

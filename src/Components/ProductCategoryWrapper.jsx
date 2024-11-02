@@ -29,7 +29,7 @@ const ProductCategoryWrapper = () => {
         <div className="product-category-wrapper py-3">
             <div className="container">
                 <div className="section-heading d-flex justify-content-between">
-                    <h6>Shop By Category</h6>
+                    <h6><b>Shop By Category</b></h6>
                     <div className="owl-navs">
                         <span className="catPrev"><i className="lni lni-chevron-left"></i></span>
                         <span className="catNext"><i className="lni lni-chevron-right"></i></span>

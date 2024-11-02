@@ -14,14 +14,13 @@ const Account = () => {
 
   return (
     <MasterLayout title="Account">
-      <div className="login-wrapper bg-white d-flex align-items-center justify-content-center text-center">
+      <div className="bg-white d-flex align-items-center justify-content-center text-center">
         <div className="container">
           <div className="settings-wrapper py-3 px-2">
 
             {/* Single Setting Cards */}
             <SettingCard title="My Profile" icon="lni lni-user" link="/profile" />
             <SettingCard title="Delivery Address" icon="lni lni-map-marker" link="/delivery-address" />
-            <SettingCard title="addDelivery Address" icon="lni lni-map-marker" link="/add-delivery-address" />
             <SettingCard title="My Prescriptions" icon="lni lni-files" link="/prescriptions" />
             <SettingCard title="Privacy Policy" icon="lni lni-protection" link="/privacy-policy" />
             <SettingCard title="Terms & Conditions" icon="fa fa-question-circle-o" link="/terms" />

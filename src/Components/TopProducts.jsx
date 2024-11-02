@@ -25,14 +25,14 @@ const TopProducts = () => {
             <div className="container">
                 <div className="card pb-3">
                     <div className="section-heading d-flex align-items-center justify-content-between p-3">
-                        <h6>Top Products</h6>
+                        <h6><b>Top Products</b></h6>
                     </div>
                     {products && products.length > 0 ?
                         <div className="top-product-wrap">
                             {products.map(product => <ProductCard  key={product.id} product={product}/>)}
                         </div>
                         :
-                        <div className="">No product found</div>
+                        <div className="text-center">No product found</div>
                     }
                 </div>
             </div>

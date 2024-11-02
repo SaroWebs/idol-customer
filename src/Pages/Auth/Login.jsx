@@ -59,7 +59,9 @@ const Login = () => {
         setIsOtpSent(true);
         setTimer(60);
         setError('');
-        alert(`Your OTP is : ${response.data.otp}`);
+        if(response.data?.otp){
+          alert(`Your OTP is : ${response.data.otp}`);
+        }
         if (response.data.isNewUser) {
           setIsNewUser(true);
         }
@@ -146,9 +148,9 @@ const Login = () => {
                 <div className="login-meta-data px-4">
                   <p className="mt-3 mb-0">
                     By providing my phone number, I hereby agree the
-                    <a className="mx-1" href="#">Term of Services</a>
+                    <a className="mx-1" href="/terms-conditions">Term of Services</a>
                     and
-                    <a className="mx-1" href="#">Privacy Policy.</a>
+                    <a className="mx-1" href="/privacy-policy">Privacy Policy.</a>
                   </p>
                 </div>
               </>
@@ -168,7 +170,7 @@ const Login = () => {
                           key={index}
                           id={`otp-${index}`}
                           className="form-control"
-                          type="text"
+                          type="number"
                           maxLength="1"
                           value={otp[index] || ''}
                           onChange={(e) => handleOtpChange(index, e.target.value)}
@@ -180,16 +182,17 @@ const Login = () => {
                     {isNewUser && (
                       <>
                         <div className="mb-3">
-                          <Input
+                          <input
                             type="text"
                             className="neu-data"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Enter your name"
+                            required
                           />
                         </div>
                         <div className="mb-3">
-                          <Input
+                          <input
                             className="neu-data"
                             type="email"
                             value={email}
