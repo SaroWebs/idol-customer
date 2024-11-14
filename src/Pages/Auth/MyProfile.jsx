@@ -5,31 +5,30 @@ import { STORAGE_PATH } from '../../config/config';
 
 const MyProfile = () => {
   const { user } = useAuth();
-  console.log(user);
-
-  // Check if user is defined before accessing addresses
   const userAddress = user && user.addresses && user.addresses.length > 0 ? user.addresses[0] : null;
 
   return (
     <MasterLayout title="Your Profile">
       <div className="card user-data-card">
-        <div className="flex justify-center my-3">
-          <div className="max-w-[50px] w-full rounded-full border border-green-600 overflow-hidden">
+
+        <div className="d-flex justify-content-center my-3">
+          <div className="border border-success rounded-circle overflow-hidden" style={{ width: '150px', height: '150px' }}>
             {user && user.image_url ? (
               <img
                 src={`${STORAGE_PATH}/${user.image_url}`}
                 alt="User Profile"
-                className="w-full h-full object-cover"
+                className="img-fluid w-100 h-100 object-fit-cover"
               />
             ) : (
               <img
                 src="/assets/images/no-image.png"
                 alt="Default Profile"
-                className="w-full h-full object-cover"
+                className="img-fluid w-100 h-100 object-fit-cover"
               />
             )}
           </div>
         </div>
+
 
         <div className="card-body">
           <ProfileData title="Full Name" icon="lni lni-user" content={user ? user.name : 'N/A'} />

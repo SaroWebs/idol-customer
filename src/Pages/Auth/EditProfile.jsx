@@ -10,7 +10,7 @@ import {
     Group
 } from '@mantine/core';
 import MasterLayout from "../../Layouts/MasterLayout";
-import { API_HOST } from "../../config/config";
+import { API_HOST, STORAGE_PATH } from "../../config/config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -66,6 +66,13 @@ const MyProfile = () => {
         })
             .then(res => {
                 console.log(res.data);
+                setFormData({
+                    ...formData,
+                    image: {
+                        ...formData.image,
+                        file: null,
+                    },
+                })
                 navigate('/profile');
             })
             .catch(err => {
@@ -90,7 +97,7 @@ const MyProfile = () => {
                                     />
                                 ) : (
                                     <img
-                                        src={formData.image.image_url || "/assets/images/no-image.png"}
+                                        src={`${STORAGE_PATH}/${formData.image.image_url}` || "/assets/images/no-image.png"}
                                         alt="Default Profile"
                                         className="rounded-circle border border-success"
                                         style={{ width: '150px', height: '150px' }}

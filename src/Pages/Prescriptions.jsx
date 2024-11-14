@@ -51,8 +51,8 @@ const Prescriptions = () => {
                     <div key={i} className="col-6 col-md-4">
                       <div className="card blog-card d-flex relative overflow-hidden">
                         <div className="row g-2">
-                          {pgr.prescriptions.map(prs => (
-                            <div key={prs.id} className={`col-${pgr.prescriptions.length > 1 ? 6 : 12}`}>
+                          {pgr.prescriptions.map((prs, j) => (
+                            <div key={j} className={`col-${pgr.prescriptions.length > 1 ? 6 : 12}`}>
 
                               <img
                                 className="img-fluid"

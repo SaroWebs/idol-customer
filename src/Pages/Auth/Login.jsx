@@ -39,6 +39,15 @@ const Login = () => {
     localStorage.setItem('isOtpSent', isOtpSent ? 'true':'false');
     localStorage.setItem('isVerified', isVerified ? 'true':'false');
     localStorage.setItem('phone', phone);
+    if(isOtpSent && !isVerified){
+      let rOtp = getOTPFromDevice();
+      if(rOtp){
+        const otpArray = rOtp.split('');
+        otpArray.forEach((digit, index) => {
+          document.getElementById(`otp-${index}`).value = digit;
+        });
+      }
+    }
   }, [isOtpSent, isVerified, phone]);
 
   useEffect(() => {
@@ -66,9 +75,11 @@ const Login = () => {
           setIsNewUser(true);
         }
       } else {
+        setIsOtpSent(false);
         setError(response.data.message || 'Error sending OTP');
       }
     } catch (error) {
+      setIsOtpSent(false);
       setError('Failed to send OTP. Please try again.');
     }
   };
@@ -78,19 +89,19 @@ const Login = () => {
       const payload = {
         phone,
         otp,
-        ...(isNewUser && { name, email }) // Include name and email if it's a new user
+        ...(isNewUser && { name, email })
       };
 
       const response = await axios.post(`${API_HOST}/verifyotp`, payload);
 
       if (response.data.success) {
+        const token = response.data.token;
         localStorage.setItem('isVerified', 'true');
         setIsVerified(true);
-        const token = response.data.token;
         localStorage.setItem('token', token);
         setIsAuthenticated(true);
         navigate('/');
-        window.location.reload(); // Reload after login success
+        window.location.reload();
       } else {
         localStorage.setItem('isVerified', 'false');
         setError('Invalid OTP');
@@ -114,6 +125,20 @@ const Login = () => {
       }
     }
   };
+
+  const getOTPFromDevice=()=>{
+    // const otpInputFields = document.querySelectorAll('input[autocomplete="one-time-code"]');
+    // if (otpInputFields.length === 4) {
+    //   let otp = '';
+    //   otpInputFields.forEach((input) => {
+    //     otp += input.value;
+    //   });
+    //   if (otp.length === 4) {
+    //     return otp;
+    //   }
+    // }
+    return '';
+  }
 
   return (
     <div className="login-wrapper d-flex align-items-center justify-content-center text-center">
@@ -174,6 +199,7 @@ const Login = () => {
                           maxLength="1"
                           value={otp[index] || ''}
                           onChange={(e) => handleOtpChange(index, e.target.value)}
+                          autoComplete="one-time-code"
                           placeholder="-"
                         />
                       ))}

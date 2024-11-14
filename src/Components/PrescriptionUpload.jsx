@@ -39,6 +39,7 @@ const PrescriptionUpload = (props) => {
     const [previews, setPreviews] = useState([]);
     const [prescriptionRequired, setPrescriptionRequired] = useState(false);
     const [prescription, setPrescription] = useState(null);
+    const [instructions, setInstructions] = useState('');
 
     useEffect(() => {
         if (type === 'pending') {
@@ -50,6 +51,7 @@ const PrescriptionUpload = (props) => {
             } else {
                 setPrescriptionRequired(false);
                 setPrescription([]);
+                setInstructions('');
             }
         }
     }, [type]);
@@ -62,6 +64,9 @@ const PrescriptionUpload = (props) => {
             },
         }).then(res => {
             setPrescription(res.data);
+            if(res.data?.instructions){
+                setInstructions(res.data?.instructions);
+            }
         }).catch(err => {
             console.error('Fetch error:', err.message);
         });
@@ -97,6 +102,9 @@ const PrescriptionUpload = (props) => {
         });
         if (type == 'assigned') {
             formData.append('order_no', order_no);
+        }
+        if (instructions) {
+            formData.append('instructions', instructions);
         }
         formData.append('status', type);
 
@@ -173,7 +181,7 @@ const PrescriptionUpload = (props) => {
                 radius={0}
                 transitionProps={{ transition: 'fade', duration: 200 }}
                 style={{ position: 'relative', zIndex: 9999999 }}>
-                <div className='container my-4'>
+                <div className='container mb-4 mt-12'>
                     <div {...getRootProps({ className: 'dropzone' })} style={{ border: '1px dashed gray', textAlign: 'center', padding: '20px', width: '100%' }}>
                         <input {...getInputProps()} />
                         <p>Click to select prescription</p>
@@ -188,6 +196,17 @@ const PrescriptionUpload = (props) => {
                             </div>
                         </SortableContext>
                     </DndContext>
+                    {previews.length >0 ?(
+                        <div className="w-full my-3">
+                            <textarea
+                                value={instructions}
+                                onChange={e=>setInstructions(e.target.value)}
+                                placeholder='Instructions'
+                                cols="30"
+                                rows="10">
+                            </textarea>
+                        </div>
+                    ):null}
                     <div className="d-flex justify-content-end mt-4">
                         {previews.length > 0 &&
                             <button onClick={handleUpload} disabled={isLoading} className='btn btn-primary btn-sm'>Confirm Upload</button>

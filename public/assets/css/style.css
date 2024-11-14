@@ -1817,6 +1817,8 @@ textarea:invalid {
 
 .sidenav-profile .user-profile img {
 	border-radius: 50%;
+	width: 80px;
+	height: 80px;
 }
 
 .sidenav-profile .user-profile .user-designation {

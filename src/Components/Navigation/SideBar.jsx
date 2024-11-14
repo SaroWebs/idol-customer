@@ -18,7 +18,7 @@ const SideBar = (props) => {
       opened={isOpen}
       onClose={closeSidebar}
       withCloseButton={false}
-      overlayProps={{ backgroundOpacity: 0.5, blur: 4, zIndex:1000 }}
+      overlayProps={{ backgroundOpacity: 0.5, blur: 4, zIndex: 1000 }}
     >
       <div>
         {isAuthenticated && user && (

@@ -5,12 +5,12 @@ import '@mantine/core/styles.css';
 import '../assets/css/search.css';
 import axios from 'axios';
 import { useCart } from '../contexts/CartContext';
-import { FaCartPlus } from 'react-icons/fa6';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { API_HOST } from '../config/config';
 
 const SearchModal = () => {
     const [opened, { open, close }] = useDisclosure(false);
+    const navigate = useNavigate();
 
     const [searchText, setSearchText] = useState('');
     const [items, setItems] = useState([]);
@@ -43,7 +43,7 @@ const SearchModal = () => {
     };
 
     const openItem = (id) => {
-        // link to /products/${id}
+        navigate(`/product/${id}`)
         handleCloseModal();
     }
 
@@ -90,15 +90,6 @@ const SearchModal = () => {
                                             <small className="text-muted flex-1" style={{ fontSize: 'smaller' }}>{item.offer_price}</small>
                                             <div className="d-flex justify-content-end gap-1" style={{ margin: '0', padding: '0' }}>
                                                 {(item.prescription === 1) ? <span className='text-xs text-danger' style={{ fontSize: 'smaller' }}>Prescription Required</span> : null}
-                                                <ActionIcon
-                                                    onClick={() => addToCart(item.id)}
-                                                    variant="filled"
-                                                    color="cyan"
-                                                    radius="xl"
-                                                    aria-label="AddToCart"
-                                                >
-                                                    <i className="fa fa-shopping-cart"></i>
-                                                </ActionIcon>
                                             </div>
                                         </div>
                                     </div>

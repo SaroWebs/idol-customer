@@ -1,13 +1,4 @@
-const token = 'your_bearer_token_here'; // Replace with your actual token
 
-axios.get('your_api_endpoint_here', {
-    headers: {
-        'Authorization': `Bearer ${token}`
-    }
-})
-.then(response => {
-    console.log(response.data);
-})
-.catch(error => {
-    console.error('Error:', error);
-});
+1. /delivery/charge/get (post), request (pin, amount), responds (amount)
+2. add instructions with prescriptions table
+3. /prescription/upload add instructions input as optional

@@ -24,6 +24,9 @@ import AccountSettings from './Pages/Auth/AccountSettings.jsx'
 import MyProfile from './Pages/Auth/MyProfile.jsx'
 import EditProfile from './Pages/Auth/EditProfile.jsx'
 import DeliveryAddress from './Pages/Auth/DeliveryAddress.jsx'
+import Success from './Pages/Payment/Success'
+import PaymentFailed from './Pages/Payment/PaymentFailed'
+
 
 function App() {
   return (
@@ -54,6 +57,9 @@ function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/shipping-policy" element={<ShippingPolicy />} />
         <Route path="/terms-conditions" element={<Terms />} />
+        
+        <Route path="/payment-success" element={<Success />} />
+        <Route path="/payment-failed" element={<PaymentFailed />} />
 
 
       </Routes>

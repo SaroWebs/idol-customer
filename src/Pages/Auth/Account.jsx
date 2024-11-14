@@ -23,7 +23,7 @@ const Account = () => {
             <SettingCard title="Delivery Address" icon="lni lni-map-marker" link="/delivery-address" />
             <SettingCard title="My Prescriptions" icon="lni lni-files" link="/prescriptions" />
             <SettingCard title="Privacy Policy" icon="lni lni-protection" link="/privacy-policy" />
-            <SettingCard title="Terms & Conditions" icon="fa fa-question-circle-o" link="/terms" />
+            <SettingCard title="Terms & Conditions" icon="fa fa-question-circle-o" link="/terms-conditions" />
             <div className="card settings-card">
               <div className="card-body">
               <a href="javascript:void(0);" onClick={handleLogout}>

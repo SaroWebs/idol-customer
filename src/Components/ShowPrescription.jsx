@@ -42,8 +42,8 @@ const ShowPrescription = ({ type = 'button', text = 'Prescription', code }) => {
                 style={{ position: 'relative', zIndex: 9999999 }}>
                 <div className="container">
                     <div className="row g-5">
-                        {pages.length > 0 && pages.map(px => (
-                            <div className="col-12">
+                        {pages.length > 0 && pages.map((px, i) => (
+                            <div className="col-12" key={i}>
                                 <img src={STORAGE_PATH + '/' + px.file_path} alt="" loading="lazy"/>
                             </div>
                         ))}

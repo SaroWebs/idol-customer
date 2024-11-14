@@ -86,9 +86,12 @@ const OrderItem = ({ order }) => {
     if (lastDoneBy) {
       finalStatus.doneBy = lastDoneBy.done_by;
     }
+  }else{
+    finalStatus.status= order.status;
   }
 
-  const formattedDate = finalStatus.date ? new Date(finalStatus.date).toLocaleString() : '';
+  const formattedDate = finalStatus.date ? new Date(finalStatus.date).toLocaleString() : new Date(order.updated_at).toLocaleString();
+
   const displayDoneBy = finalStatus.doneBy === 'customer' ? 'you' : finalStatus.doneBy;
 
   return (
@@ -103,14 +106,29 @@ const OrderItem = ({ order }) => {
               <p className="offer-price">
                 Total Price <span>₹ {order.payable_amount}</span>
               </p>
-              {finalStatus.status === ' delivered' && (
+              {finalStatus.status == 'delivered' && (
                 <div>
                   <div className="_3SbeKb _2K8tmU"></div>
                   <span className="AO0UbU">Delivered on {formattedDate}</span>
                   <div className="_30gI7w">Your Order has been Delivered.</div>
                 </div>
               )}
-              {finalStatus.status === 'cancelled' && (
+              {finalStatus.status == 'returned' && (
+                <div>
+                  <div className="_3SbeKb qU6Nxg"></div>
+                  <span className="AO0UbU">
+                    <strong>Returned on {formattedDate}</strong>
+                  </span>
+                  <div className="_30gI7w">
+                    {displayDoneBy === 'you' ?
+                      <span>As per your request, your item has been returned</span>
+                      :
+                      <span>Item has been returned {displayDoneBy ? 'by' + displayDoneBy : ''}</span>
+                    }
+                  </div>
+                </div>
+              )}
+              {finalStatus.status == 'cancelled' && (
                 <div>
                   <div className="_3SbeKb qU6Nxg"></div>
                   <span className="AO0UbU">
@@ -120,21 +138,27 @@ const OrderItem = ({ order }) => {
                     {displayDoneBy === 'you' ?
                       <span>As per your request, your item has been cancelled</span>
                       :
-                      <span>Item has been cancelled by {displayDoneBy}</span>
+                      <span>Item has been cancelled  {displayDoneBy ? 'by' + displayDoneBy : ''}</span>
                     }
                   </div>
                 </div>
               )}
-              {finalStatus.status === 'placed' && (
+              {finalStatus.status == 'placed' && (
                 <div className='d-flex align-items-center'>
                   <div className="_3SbeKb _2K8tmU"></div>
-                  <div className="_30gI7w">Your Order has been placed.</div>
+                  <div className="_30gI7w">Order placed on {formattedDate}.</div>
                 </div>
               )}
-              {(finalStatus.status === 'processed' || finalStatus.status === 'approved') && (
+              {(finalStatus.status == 'processed') && (
                 <div className='d-flex align-items-center'>
                   <div className="_3SbeKb _2K8tmU"></div>
-                  <div className="_30gI7w">Your Order has been processed.</div>
+                  <div className="_30gI7w">Your Order has been processed on {formattedDate}.</div>
+                </div>
+              )}
+              {(finalStatus.status == 'approved') && (
+                <div className='d-flex align-items-center'>
+                  <div className="_3SbeKb _2K8tmU"></div>
+                  <div className="_30gI7w">Your Order has been approved on {formattedDate}.</div>
                 </div>
               )}
             </div>

@@ -24,46 +24,40 @@ const PlaceOrder = ({ paymentMode = 'cash' }) => {
 
 
     const handleOrder = async () => {
-        localStorage.removeItem('orderInfo');
         if (paymentMode.toLocaleLowerCase() === 'cash') {
-            processOrder();
-        } else if (paymentMode.toLocaleLowerCase() === 'online') {
-            localStorage.setItem('orderInfo', JSON.stringify(orderInfo));
-            const options = {
-                method: 'post',
-                url: 'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay',
-                headers: {
-                    accept: 'text/plain',
-                    ContentType: 'application/json'
-                },
-                data: {}
-            };
-            axios.request(options)
-                .then(function (response) {
-                    console.log(response.data);
-                })
-                .catch(function (error) {
-                    console.error(error);
-                });
-        }
-    }
-
-    const processOrder = () => {
-        const token = localStorage.getItem('token'); // Retrieve token from local storage
-        axios.post(`${API_HOST}/order/place`, orderInfo, {
-            headers: {
-                'Authorization': `Bearer ${token}` // Include token in the headers
-            }
-        })
-            .then(response => {
-                console.log("Order processed successfully:", response.data); // Handle success
-                clearCart();
-                navigate('/orders')
+            processOrder('cash');
+        }else if (paymentMode.toLocaleLowerCase() == 'online') {
+            axios.post(`${API_HOST}/payment/initiate`, {
+                amount: orderInfo.payable_amount,
+                mobile: user.phone,
+                order_no: orderInfo.order_no
             })
-            .catch(error => {
-                console.error("Error processing order:", error); // Handle error
+            .then(response => {
+                processOrder('online')
+                window.location.href = response.data.paymentUrl;
+            })
+            .catch(error => console.error(error));
+        }
+    };
+    
+
+    const processOrder = async (mode) => {
+        try {
+            const token = localStorage.getItem('token'); // Retrieve token from local storage
+            const response = await axios.post(`${API_HOST}/order/place`, orderInfo, {
+                headers: { 'Authorization': `Bearer ${token}` }
             });
-    }
+            if(response){
+                clearCart();
+                if(mode == 'online') return true;
+                if(mode == 'cash') navigate('/orders');
+            }
+        } catch (error) {
+            console.error("Error processing order:", error);
+            return false;
+        }
+    };
+    
 
     useEffect(() => {
         if (cart) {

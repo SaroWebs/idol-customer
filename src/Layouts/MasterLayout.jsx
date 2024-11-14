@@ -41,11 +41,11 @@ const MasterLayout = (props) => {
                 isOpen={opened}
                 closeSidebar={close}
             />
-            <div className="bg-white" style={{ marginTop: '3rem', marginBottom: '3.5rem', minHeight: '90vh', background: '#bebebe' }}>
+            <div className="bg-white" style={{ marginTop: '3rem', paddingTop:'1rem', marginBottom: '3.5rem', minHeight: '90vh', background: '#bebebe' }}>
 
                 {(title && title !== 'home') ? (
                     <div className="page-header">
-                        <div className="d-flex p-2 align-items-center" style={{ gap: '1rem' }}>
+                        <div className="d-flex p-2 align-items-start" style={{ gap: '1rem' }}>
                             <div className="back-button">
                                 <button onClick={handleBack} style={{ border: 'none', background: 'transparent' }}>
                                     <i style={{ fontSize: 'xx-large', color: '#00b894' }}
@@ -56,7 +56,7 @@ const MasterLayout = (props) => {
 
                             <div className="">
                                 <div className="title text-capitalize fw-bold">
-                                    <h2>{title}</h2>
+                                    <h3>{title}</h3>
                                 </div>
                             </div>
                         </div>
