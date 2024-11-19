@@ -13,7 +13,7 @@ const Checkout = () => {
     const [localQuantities, setLocalQuantities] = useState({});
     const [paymentMode, setPaymentMode] = useState('Cash');
     const [isLoading, setIsLoading] = useState(false);
-    const [finalAmount, setFinalAmount] = useState(0);
+    const [charge, setCharge] = useState(0);
 
     useEffect(() => {
         if (cart) {
@@ -39,33 +39,41 @@ const Checkout = () => {
     const totals = useMemo(() => {
         const total_qty = cart ? cart.reduce((acc, item) => acc + item.quantity, 0) : 0;
         const total_amount = cart ? cart.reduce((acc, item) => acc + (item.product.offer_price * item.quantity), 0) : 0;
-        const total_tax = cart ? cart.reduce((acc, item) => acc + (item.product.tax.tax_rate * item.quantity), 0) : 0;
+
+        const total_tax = cart
+            ? cart.reduce((acc, item) => {
+                const taxRate = item.product.tax?.tax_rate || 0; // Use optional chaining and default to 0
+                return acc + (taxRate * item.quantity);
+            }, 0)
+            : 0;
+
         return { total_qty, total_amount, total_tax };
     }, [cart]);
 
     const presc = useMemo(() => cart && cart.some((item) => item.product.prescription === 1), [cart]);
-    const activeAddress = user?.addresses?.find((address) => address.active);
+    const activeAddress = user?.addresses?.find((address) => address.active) || user?.addresses?.[0];
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-
         if (activeAddress && totals.total_amount) {
-            axios.post(`${API_HOST}/delivery/charge/get`,{
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }, {
+            console.log("Fetching delivery charge with payload:", {
+                pin: activeAddress.pin,
+                amount: totals.total_amount + totals.total_tax
+            });
+    
+            axios.post(`${API_HOST}/delivery/charge/get`, {
                 pin: activeAddress.pin,
                 amount: totals.total_amount + totals.total_tax
             })
-            .then((res) => {
-                setFinalAmount(res.data.amount);
-            })
-            .catch((err) => {
-                console.error("Error fetching delivery charge:", err);
-            });
+                .then((res) => {
+                    console.log("Delivery charge response:", res.data);
+                    setCharge(res.data.charge);
+                })
+                .catch((err) => {
+                    console.error("Error fetching delivery charge:", err.response?.data || err.message);
+                });
         }
     }, [activeAddress, totals.total_amount, totals.total_tax]);
+    
 
     return (
         <MasterLayout title="Checkout">
@@ -85,7 +93,7 @@ const Checkout = () => {
                         />
 
                         <BillingInformation user={user} activeAddress={activeAddress} />
-                        
+
                         <PaymentMethodSelection paymentMode={paymentMode} setPaymentMode={setPaymentMode} />
 
                         {presc && (
@@ -101,8 +109,12 @@ const Checkout = () => {
 
                         <div className="card cart-amount-area">
                             <div className="card-body d-flex align-items-center justify-content-between">
-                                <h5 className="total-price mb-0">₹ {totals.total_amount.toFixed(2)}</h5>
-                                <PlaceOrder paymentMode={paymentMode} />
+                                <div className="">
+                                    <h5 className="total-price mb-0">Amount : ₹ {totals.total_amount.toFixed(2)}</h5>
+                                    <h5 className="total-price mb-0">Delivery Charge: ₹ {charge.toFixed(2)}</h5>
+                                    <h5 className="total-price mb-0">Subtotal: ₹ {(Number(totals.total_amount) + Number(charge)).toFixed(2)}</h5>
+                                </div>
+                                <PlaceOrder paymentMode={paymentMode} total={(Number(totals.total_amount) + Number(charge)).toFixed(2)}/>
                             </div>
                         </div>
                     </div>
@@ -123,14 +135,13 @@ const ProductReviewTable = ({ cart, localQuantities, handleChangeQuantity, handl
                 <h6 className="text-center mb-0 text-white">Product Review</h6>
             </div>
         </div>
-        <div className="card user-data-card">
+        <div className="card user-data-card shadow-sm">
             <div className="table-responsive card-body">
-                <table className="table mb-0">
+                <table className="table mb-0" id="cart">
                     <thead style={{ borderBottom: '1px solid black' }}>
                         <tr>
-                            <th style={{ width: '55%' }}>Product</th>
-                            <th style={{ width: '8%' }}>Quantity</th>
-                            <th style={{ width: '10%' }}>Tax</th>
+                            <th style={{ width: '65%' }}>Product</th>
+                            <th style={{ width: '8%' }}>QTY</th>
                             <th style={{ width: '12%' }} className="text-center">Subtotal</th>
                             <th style={{ width: '10%' }}></th>
                         </tr>
@@ -138,12 +149,12 @@ const ProductReviewTable = ({ cart, localQuantities, handleChangeQuantity, handl
                     <tbody style={{ borderBottom: '1px solid black' }}>
                         {cart.map((item, i) => {
                             const tax = item.product?.tax?.tax_rate * item.quantity || 0;
-                            const total = item.product?.offer_price * item.quantity || 0;
-                            const subtotal = total + tax;
+                            const subtotal = (item.product?.offer_price || 0) * item.quantity + tax;
+
                             return (
-                                <tr key={i}>
+                                <tr key={i} className="resjmopl-y-ljhtk">
                                     <td style={{ width: '65%' }}>
-                                        <h6 style={{ fontSize: '12px' }}>{item.product?.name}</h6>
+                                        <h6 style={{ fontSize: '12px' }} className="nomargin">{item.product?.name}</h6>
                                         {item.prescription && (
                                             <p>
                                                 <span style={{ color: '#00b894', fontSize: '8px' }}>Prescription Required</span>
@@ -152,21 +163,36 @@ const ProductReviewTable = ({ cart, localQuantities, handleChangeQuantity, handl
                                     </td>
                                     <td>
                                         <div className="d-flex align-items-center">
-                                            <button className="btn btn-danger btn-sm mx-2" onClick={() => updateCart(item.id, Math.max(1, localQuantities[item.id] - 1))}>-</button>
+                                            <button
+                                                className="btn btn-danger btn-sm mx-2"
+                                                onClick={() => updateCart(item.id, Math.max(1, localQuantities[item.id] - 1))}
+                                            >
+                                                -
+                                            </button>
                                             <input
                                                 type="text"
                                                 className="qty-text quantity itemQty"
+                                                style={{ maxWidth: '2rem' }}
                                                 value={localQuantities[item.id] || ''}
                                                 onChange={(e) => handleChangeQuantity(e, item.id)}
                                                 onBlur={() => handleBlur(item.id)}
                                             />
-                                            <button className="btn btn-danger btn-sm mx-2" onClick={() => updateCart(item.id, localQuantities[item.id] + 1)}>+</button>
+                                            <button
+                                                className="btn btn-danger btn-sm mx-2"
+                                                onClick={() => updateCart(item.id, localQuantities[item.id] + 1)}
+                                            >
+                                                +
+                                            </button>
                                         </div>
                                     </td>
-                                    <td className="text-center">₹ {tax.toFixed(2)}</td>
                                     <td className="text-center">₹ {subtotal.toFixed(2)}</td>
                                     <td>
-                                        <button onClick={() => removeFromCart(item.id)} className="btn btn-danger btn-sm remove-from-cart"><i className="fa fa-trash-o"></i></button>
+                                        <button
+                                            onClick={() => removeFromCart(item.id)}
+                                            className="btn btn-danger btn-sm remove-from-cart"
+                                        >
+                                            <i className="fa fa-trash-o"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             );
@@ -175,6 +201,7 @@ const ProductReviewTable = ({ cart, localQuantities, handleChangeQuantity, handl
                 </table>
             </div>
         </div>
+
     </div>
 );
 
@@ -201,7 +228,7 @@ const BillingInformation = ({ user, activeAddress }) => (
                         <i className="lni lni-map-marker"></i>
                         <span>Address</span>
                     </div>
-                    <div className="data-content">{activeAddress ? `${activeAddress.address} (${activeAddress.pin})` : 'No Active Address'}</div>
+                    <div className="data-content">{activeAddress ? `${activeAddress.address_line_1}, ${activeAddress.address_line_2}, ${activeAddress.city}, ${activeAddress.state} (${activeAddress.pin})` : 'No Active Address'}</div>
                 </div>
             </div>
         </div>

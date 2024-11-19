@@ -12,12 +12,10 @@ const generateOrderNo = () => {
     return prefix + timestamp;
 }
 
-const PlaceOrder = ({ paymentMode = 'cash' }) => {
+const PlaceOrder = ({ paymentMode = 'cash', total }) => {
     const { cart, clearCart } = useCart();
     const { user } = useAuth();
     const navigate = useNavigate();
-    const total_amount = cart ? cart.reduce((acc, item) => acc + (item.product.offer_price * item.quantity), 0) : 0;
-    const presc = cart ? cart.some(item => item.product.prescription == 1) : false;
     const activeAddress = (user && user.addresses) ? user.addresses.find(address => address.active) : null;
 
     const [orderInfo, setOrderInfo] = useState({});
@@ -70,13 +68,13 @@ const PlaceOrder = ({ paymentMode = 'cash' }) => {
                 order_no: generateOrderNo(),
                 customer_address_id: activeAddress?.id,
                 payment_mode: paymentMode.toLocaleLowerCase(),
-                payable_amount: total_amount,
+                payable_amount: total,
                 payment_status: 'pending',
                 transaction_id: '',
                 items: items
             });
         }
-    }, [cart, activeAddress, paymentMode, total_amount]);
+    }, [cart, activeAddress, paymentMode, total]);
 
     return (
         <button onClick={handleOrder} className="btn btn-warning btn-sm">Place Order</button>
