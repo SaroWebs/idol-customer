@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/swiper-bundle.css'; // Make sure to import Swiper styles
-import { API_HOST, STORAGE_PATH } from '../config/config'; // Adjust the import based on your folder structure
+import 'swiper/swiper-bundle.css';
+import { API_HOST, STORAGE_PATH } from '../config/config';
 import { Link } from 'react-router-dom';
 import { Navigation } from 'swiper/modules';
 
@@ -39,9 +39,20 @@ const ProductCategoryWrapper = () => {
                     <Swiper
                         modules={[Navigation]}
                         spaceBetween={10}
-                        slidesPerView={3.2}
+                        slidesPerView={3.3}
+                        breakpoints={{
+                            640: {
+                              slidesPerView: 3.3,
+                            },
+                            768: {
+                              slidesPerView: 4.3,
+                            },
+                            1024: {
+                              slidesPerView: 5.3,
+                            },
+                          }}
                         loop={true}
-                        autoplay={{ delay: 3000 }}
+                        autoplay={{ delay: 2000 }}
                         pagination={{ clickable: true }}
                         navigation={{
                             nextEl: '.catNext',
@@ -56,7 +67,7 @@ const ProductCategoryWrapper = () => {
                                 {category.id == 1 || category.name == 'all' ? (
                                     <Link to={`/products`} className="d-flex flex-column align-items-center justify-content-center category-block">
                                         <img
-                                            src={`${STORAGE_PATH + category.icon_path}`} // Adjust the path if needed
+                                            src={`${STORAGE_PATH + category.icon_path}`}
                                             alt={category.name}
                                             style={{ width: '75px', objectFit: 'cover' }}
                                             loading="lazy"

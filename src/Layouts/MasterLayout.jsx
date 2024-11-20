@@ -6,6 +6,7 @@ import SideBar from '../Components/Navigation/SideBar';
 import { useDisclosure } from '@mantine/hooks';
 import { useNavigate } from 'react-router-dom';
 import { Loader } from '@mantine/core';
+import PopupScreen from '../Components/Navigation/PopupScreen';
 
 const MasterLayout = (props) => {
     const { isAuthenticated, user, loading, logout } = useAuth();
@@ -15,7 +16,6 @@ const MasterLayout = (props) => {
     const handleBack = () => {
         navigate(-1);
     }
-
 
     return (
         <div className="position-relative">
@@ -66,6 +66,7 @@ const MasterLayout = (props) => {
 
             </div>
             <Footer />
+            <PopupScreen/>
         </div>
     )
 }
