@@ -57,13 +57,7 @@ const DeliveryAddress = () => {
         if (!/^\d{6}$/.test(pin)) {
             return false;
         }
-        try {
-            const response = await axios.get(`${API_HOST}/pin/check?pin=${pin}`);
-            return true;
-        } catch (error) {
-            console.error('Error validating PIN:', error);
-            return false;
-        }
+        return true;
     };
 
     const handleInputChange = (e) => {

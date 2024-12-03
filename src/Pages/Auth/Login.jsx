@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { API_HOST } from '../../config/config';
-import { Input } from '@mantine/core';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -36,12 +35,12 @@ const Login = () => {
   }, [timer, isOtpSent]);
 
   useEffect(() => {
-    localStorage.setItem('isOtpSent', isOtpSent ? 'true':'false');
-    localStorage.setItem('isVerified', isVerified ? 'true':'false');
+    localStorage.setItem('isOtpSent', isOtpSent ? 'true' : 'false');
+    localStorage.setItem('isVerified', isVerified ? 'true' : 'false');
     localStorage.setItem('phone', phone);
-    if(isOtpSent && !isVerified){
+    if (isOtpSent && !isVerified) {
       let rOtp = getOTPFromDevice();
-      if(rOtp){
+      if (rOtp) {
         const otpArray = rOtp.split('');
         otpArray.forEach((digit, index) => {
           document.getElementById(`otp-${index}`).value = digit;
@@ -68,7 +67,7 @@ const Login = () => {
         setIsOtpSent(true);
         setTimer(60);
         setError('');
-        if(response.data?.otp){
+        if (response.data?.otp) {
           alert(`Your OTP is : ${response.data.otp}`);
         }
         if (response.data.isNewUser) {
@@ -126,7 +125,7 @@ const Login = () => {
     }
   };
 
-  const getOTPFromDevice=()=>{
+  const getOTPFromDevice = () => {
     // const otpInputFields = document.querySelectorAll('input[autocomplete="one-time-code"]');
     // if (otpInputFields.length === 4) {
     //   let otp = '';
@@ -152,7 +151,7 @@ const Login = () => {
                   <p className="mb-4 text-white">We will send you an OTP on this phone number.</p>
                 </div>
                 <div className="otp-form mt-5 mx-4">
-                  <form onSubmit={(e) => { e.preventDefault(); sendOtp(); }}>
+                  <form onSubmit={(e) => { e.preventDefault(); sendOtp(); }} className='mb-4'>
                     <div className="mb-4 d-flex">
                       <select className="form-select" aria-label="Default select example">
                         <option value="">+91</option>
@@ -169,6 +168,8 @@ const Login = () => {
                     {error && <span id="errmsg">{error}</span>}
                     <button className="btn btn-warning btn-lg w-100" type="submit">Send OTP</button>
                   </form>
+                  <span>OR</span>
+                  <button onClick={() => navigate('/')} className="btn btn-secondary btn-lg w-100">Continue Browsing</button>
                 </div>
                 <div className="login-meta-data px-4">
                   <p className="mt-3 mb-0">

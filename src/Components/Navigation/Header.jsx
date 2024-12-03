@@ -4,10 +4,10 @@ import { getMenuLinks } from '../../Layouts/MenuLinks';
 import SearchModal from '../SearchModal';
 import { useCart } from '../../contexts/CartContext';
 
-const Header = ({isAuthenticated, openSidebar}) => {
+const Header = ({ isAuthenticated, openSidebar }) => {
   const { cart } = useCart();
   const menuLinks = getMenuLinks(isAuthenticated);
-  
+
   return (
     <div className="header-area" id="headerArea">
       <div className="container h-100 d-flex align-items-center justify-content-between">
@@ -18,15 +18,30 @@ const Header = ({isAuthenticated, openSidebar}) => {
         </div>
         <div className="d-flex align-items-center gap-2">
           <div style={{ position: 'relative' }} id="openSearchSection">
-            <SearchModal/>
+            <SearchModal />
           </div>
           <ul className="nav-menu d-none d-md-flex">
             {menuLinks.map((link, index) => (
               <li key={index} className={index === 0 ? 'active' : ''}>
-                <Link to={link.path}>
-                  {link.label}
-                  {link.path === '/cart' && <span>({cart ? cart.length : 0})</span>}
-                </Link>
+                {isAuthenticated ?
+                  <Link to={link.path}>
+                    {link.label}
+                    {link.path === '/cart' && <span>({cart ? cart.length : 0})</span>}
+                  </Link>
+                  :
+                  !link.protected && (
+                    <div className='d-flex align-items-center' style={{ gap:'1rem'}}>
+                      <Link to={link.path}>
+                        {link.label}
+                        {link.path === '/cart' && <span>({cart ? cart.length : 0})</span>}
+                      </Link>
+                      <Link to={'/login'} className='btn btn-sm btn-danger'>
+                        <i className="fa fa-lock"></i>
+                        Login
+                      </Link>
+                    </div>
+                  )
+                }
               </li>
             ))}
           </ul>

@@ -1,40 +1,89 @@
-import React from 'react'
-import MasterLayout from '../../Layouts/MasterLayout'
+import React from 'react';
+import MasterLayout from '../../Layouts/MasterLayout';
+import { Helmet } from 'react-helmet-async';
 
 const PrivacyPolicy = () => {
-    return (
-        <MasterLayout title="Privacy Policy">
+  return (
+    <MasterLayout title="Privacy Policy">
+      <Helmet>
+        <title>Privacy Policy - Idol Pharma</title>
+        <meta
+          name="description"
+          content="Learn how Idol Pharma collects, uses, and protects your information in accordance with our Privacy Policy. Your privacy is our priority."
+        />
+        <meta
+          name="keywords"
+          content="Privacy Policy, Data Collection, Data Security, Personal Information, Idol Pharma"
+        />
+      </Helmet>
 
+      <div className="privacy-policy-wrapper bg-light py-5 px-3">
+        <div className="container">
+          <div className="text-center mb-5">
+            <h1 className="fw-bold display-4 text-primary">Privacy Policy</h1>
+            <p className="text-muted lead">
+              Your privacy is our priority. Learn how we handle your data securely and responsibly.
+            </p>
+          </div>
 
-            <div className="privacy-policy-wrapper p-3 bg-white">
-  
-                <p>By using or accessing the service in any manner, you acknowledge that you accept the practices and policies outlined in this Privacy Policy, and you hereby consent that we will collect, use, and share your information in the following ways.</p>
-                
-                <section>
-                    <h2>WHAT DATA WE COLLECT AND WHY WE COLLECT</h2>
-                    <p>As is true of most websites, we gather certain information (such as mobile provider, operating system, etc.) automatically and store it in log files. We use this information, which does not identify individual users, to analyze trends, administer the website, track users' movements around the website, and gather demographic information about our user base as a whole. We may link some of this automatically collected data to certain Personally Identifiable Information.</p>
-                </section>
+          <p className="mb-5">
+            By using or accessing the service in any manner, you acknowledge that you accept the practices and policies outlined in this Privacy Policy, and you hereby consent to our collection, use, and sharing of your information as described below.
+          </p>
 
-                <section>
-                    <h2>PERSONALLY IDENTIFIABLE INFORMATION</h2>
-                    <p>If you are a Client, when you register with us via our Website, we will ask you for some personally identifiable information, such as your first and last name, company name, email address, billing address, and credit card information. You may review and update this personally identifiable information in your profile by logging in and editing such information on your dashboard. If you decide to delete all of your information, we may cancel your account. We may retain an archived copy of your records as required by law or for reasonable business purposes.</p>
-                    <p>Due to the nature of the Service, except to assist Clients with certain limited technical problems or as otherwise legally compelled, we will not access any of the Content that you upload to the Service.</p>
-                    <p>Some Personally Identifiable Information may also be provided to intermediaries and third parties who assist us with the Service, but who may make no use of any such information other than to assist us in providing the Service. Except as otherwise provided in this Privacy Policy, we will not rent or sell your Personally Identifiable Information to third parties.</p>
-                </section>
+          <section className="mb-5">
+            <h2 className="text-primary fw-bold">What Data We Collect and Why</h2>
+            <p>
+              Like most websites, we gather certain information (e.g., mobile provider, operating system) automatically and store it in log files. This information, which does not identify individual users, is used to:
+            </p>
+            <ul className="list-group list-group-flush mb-3">
+              <li className="list-group-item">Analyze trends and administer the website.</li>
+              <li className="list-group-item">Track user movement on the website.</li>
+              <li className="list-group-item">Gather demographic information about our user base.</li>
+            </ul>
+            <p>
+              In some cases, this data may be linked to Personally Identifiable Information to provide a more personalized experience.
+            </p>
+          </section>
 
-                <section>
-                    <h2>USE OF INFORMATION</h2>
-                    <p>For our Clients, we use personal information mainly to provide the Services and contact our Clients regarding account activities, new versions, product offerings, or other communications relevant to the Services. We do not sell or share any personally identifiable or other information of End Users to any third parties, except, of course, to the applicable Client whose website you are using.</p>
-                    <p>If you contact us by email or by filling out a registration form, we may keep a record of your contact information and correspondence and may use your email address and any information that you provide to us in your message to respond to you. Additionally, we may use the personal information described above to send you information regarding the Service. If you decide at any time that you no longer wish to receive such information or communications from us, email us at <a href="mailto:youremail@example.com">youremail@example.com</a> and request to be removed from our list. The circumstances under which we may share such information with third parties are described below in “Complying with Legal Process”.</p>
-                </section>
+          <section className="mb-5">
+            <h2 className="text-primary fw-bold">Personally Identifiable Information</h2>
+            <p>
+              When registering on our website, we may ask for information such as your name, email, billing address, and payment details. You can review and update this information in your profile. If you delete your data, your account may be cancelled. However, we may retain archived records as required by law.
+            </p>
+            <p>
+              Certain Personally Identifiable Information may be shared with trusted third-party intermediaries to assist in providing our services. These third parties are restricted from using this data for any purpose other than assisting us.
+            </p>
+            <p>
+              We do not rent or sell Personally Identifiable Information to third parties.
+            </p>
+          </section>
 
-                <section>
-                    <h2>STORAGE AND SECURITY OF INFORMATION</h2>
-                    <p className="mb-0">We operate secure data networks protected by industry-standard firewalls and password protection systems. Our security and privacy policies are periodically reviewed and enhanced as necessary, and only authorized individuals have access to the information provided by our Clients.</p>
-                </section>
-            </div>
-        </MasterLayout>
-    )
-}
+          <section className="mb-5">
+            <h2 className="text-primary fw-bold">Use of Information</h2>
+            <p>
+              We use personal information to:
+            </p>
+            <ul className="list-group list-group-flush mb-3">
+              <li className="list-group-item">Provide our services to clients.</li>
+              <li className="list-group-item">Contact clients about account activities, updates, or offers.</li>
+              <li className="list-group-item">Respond to inquiries or feedback.</li>
+            </ul>
+            <p>
+              If you wish to stop receiving communications from us, email us at{' '}
+              <a href="mailto:youremail@example.com" className="text-primary text-decoration-none">youremail@example.com</a>.
+            </p>
+          </section>
 
-export default PrivacyPolicy
+          <section className="mb-5">
+            <h2 className="text-primary fw-bold">Storage and Security of Information</h2>
+            <p>
+              We operate secure data networks protected by industry-standard firewalls and password protection systems. Only authorized personnel have access to client information. Our security policies are reviewed and enhanced periodically to ensure data safety.
+            </p>
+          </section>
+        </div>
+      </div>
+    </MasterLayout>
+  );
+};
+
+export default PrivacyPolicy;

@@ -14,7 +14,6 @@ const SearchModal = () => {
 
     const [searchText, setSearchText] = useState('');
     const [items, setItems] = useState([]);
-    const { addToCart } = useCart();
 
     useEffect(() => {
         const fetchSearchResults = async () => {
@@ -68,9 +67,9 @@ const SearchModal = () => {
                 fullScreen
                 radius={0}
                 transitionProps={{ transition: 'fade', duration: 200 }}
-                style={{ position: 'relative', zIndex: 9999999 }}>
+                style={{ position: 'relative', zIndex: 9999999, background:'#ffffff50' }}>
 
-                <div>
+                <div className='search-content'>
                     <div className='s-input-container'>
                         <input
                             className='s-input'

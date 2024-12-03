@@ -27,6 +27,7 @@ const Prescriptions = () => {
         console.log('Data fetching completed.');
       });
   }
+  
   useEffect(() => {
     getData()
   }, [])

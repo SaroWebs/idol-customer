@@ -1,10 +1,10 @@
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Autoplay } from 'swiper/modules';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import { API_HOST, STORAGE_PATH } from '../config/config';
 import { Link } from 'react-router-dom';
-import { Navigation } from 'swiper/modules';
 
 const ProductCategoryWrapper = () => {
     const [categories, setCategories] = useState([]);
@@ -37,22 +37,25 @@ const ProductCategoryWrapper = () => {
                 </div>
                 <div className="product-category-wrap">
                     <Swiper
-                        modules={[Navigation]}
-                        spaceBetween={10}
+                        modules={[Navigation, Autoplay]}
+                        spaceBetween={15}
                         slidesPerView={3.3}
                         breakpoints={{
                             640: {
-                              slidesPerView: 3.3,
+                                slidesPerView: 3.3,
                             },
                             768: {
-                              slidesPerView: 4.3,
+                                slidesPerView: 5.3,
                             },
                             1024: {
-                              slidesPerView: 5.3,
+                                slidesPerView: 7.5,
                             },
-                          }}
+                        }}
                         loop={true}
-                        autoplay={{ delay: 2000 }}
+                        autoplay={{
+                            delay: 3000,
+                            disableOnInteraction: false,
+                        }}
                         pagination={{ clickable: true }}
                         navigation={{
                             nextEl: '.catNext',
@@ -62,7 +65,7 @@ const ProductCategoryWrapper = () => {
                         {categories.map((category, index) => (
                             <SwiperSlide key={index}
                                 className='d-flex align-items-end justify-content-center'
-                                style={{ background: '#fff', height: '110px', borderRadius: '12px' }}
+                                style={{ background: '#fefefe', border:'1px solid #eee', height: '110px', borderRadius: '12px' }}
                             >
                                 {category.id == 1 || category.name == 'all' ? (
                                     <Link to={`/products`} className="d-flex flex-column align-items-center justify-content-center category-block">

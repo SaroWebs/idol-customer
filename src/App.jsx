@@ -61,7 +61,6 @@ function App() {
         <Route path="/payment-success" element={<Success />} />
         <Route path="/payment-failed" element={<PaymentFailed />} />
 
-
       </Routes>
     </Router>
   )

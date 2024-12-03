@@ -1,77 +1,111 @@
-import React from 'react'
-import MasterLayout from '../../Layouts/MasterLayout'
+import React from 'react';
+import MasterLayout from '../../Layouts/MasterLayout';
+import { Helmet } from 'react-helmet-async';
 
 const Terms = () => {
   return (
     <MasterLayout title="Terms & Conditions">
+      <Helmet>
+        <title>Terms & Conditions - Idol Pharma</title>
+        <meta 
+          name="description" 
+          content="Review the terms and conditions for online payments, delivery policies, and user responsibilities at Idol Pharma. Stay informed about our practices." 
+        />
+        <meta 
+          name="keywords" 
+          content="Terms and Conditions, Online Payment, Medicine Purchase, Idol Pharma Policies" 
+        />
+      </Helmet>
 
-     <div className="Terms-conditions-wrapper px-3 py-3">
-      <h1>Terms & Conditions for Online Payment</h1>
-      
-      <h2>Acceptance of Terms and Conditions</h2>
-      <p>
-        Welcome to Idol Pharma. Idolpharma.in is a Guwahati-based pharma company that prides itself on delivering emergency medicine on time. All information and services displayed on the Idol Pharma website constitute advice on online payment. Your request for the transaction consists of the terms and conditions shared by the pharma. If you do not follow these protocols, kindly avoid using our service.
-      </p>
-      <p>
-        By availing of this facility, you accept a legally binding agreement between you and Idol Pharma.
-      </p>
+      <div className="terms-conditions-wrapper bg-light py-5">
+        <div className="container">
+          <div className="text-center mb-5">
+            <h1 className="fw-bold display-4 text-primary">Terms & Conditions</h1>
+            <p className="text-muted lead">
+              Understand our policies before using Idol Pharma's services.
+            </p>
+          </div>
 
-      <h2>Definitions</h2>
-      <p>
-        "Agreement" means the terms and conditions, including the Privacy Policy, schedules, appendices, and any references that may be added, varied, or replaced from time to time. “User” or "You" refers to the person using the website. "Site" is the online platform provided by Idol Pharma for purchasing drugs. “Product/s” or “Drug” refers to the medications or any products displayed on our website.
-      </p>
+          <section className="mb-5">
+            <h2 className="text-primary fw-bold">Acceptance of Terms and Conditions</h2>
+            <p>
+              Welcome to Idol Pharma. By using our services, you acknowledge acceptance of the practices and policies outlined in this agreement. If you disagree, please discontinue using our services.
+            </p>
+            <p>
+              By availing of our facilities, you enter into a legally binding agreement with Idol Pharma.
+            </p>
+          </section>
 
-      <h2>Modification of Terms</h2>
-      <p>
-        Idol Pharma can modify the terms and conditions without prior notification. You should abide by the terms and conditions when using our website. If you disagree with the terms, you can discontinue the use of the service.
-      </p>
+          <section className="mb-5">
+            <h2 className="text-primary fw-bold">Definitions</h2>
+            <p>
+              "Agreement" refers to the terms and conditions, Privacy Policy, and any other documents referred to herein. “User” means anyone using the website. “Product” refers to any drugs or healthcare items listed on our site.
+            </p>
+          </section>
 
-      <h2>Prescribed Medicine Terms and Conditions</h2>
-      <p>
-        To buy drugs from us, you must provide a copy of the prescribed medicine, either physically or by uploading a scanned copy on our website. Our Retail Pharmacy will verify your prescription before sending the medicines.
-      </p>
+          <section className="mb-5">
+            <h2 className="text-primary fw-bold">Modification of Terms</h2>
+            <p>
+              Idol Pharma reserves the right to modify terms and conditions without prior notice. Users are expected to stay updated and comply with the latest terms.
+            </p>
+          </section>
 
-      <h2>Payment</h2>
-      <p>
-        Payments can be made using your credit card. You are responsible for ensuring that all credit card details provided are correct. Idol Pharma is not liable for any credit card fraud.
-      </p>
+          <section className="mb-5">
+            <h2 className="text-primary fw-bold">Prescribed Medicine Terms and Conditions</h2>
+            <p>
+              Prescription verification is mandatory for purchasing medicines. You must provide a valid prescription either physically or via upload. Our Retail Pharmacy will validate the prescription before dispatch.
+            </p>
+          </section>
 
-      <h2>Product and Service</h2>
-      <p>
-        Our terms also facilitate sales and purchases between third parties and you. Idol Pharma cannot control or be held responsible for transactions between you and third parties.
-      </p>
+          <section className="mb-5">
+            <h2 className="text-primary fw-bold">Payment</h2>
+            <p>
+              Payments can be made via credit card. Users are responsible for ensuring the accuracy of their payment details. Idol Pharma is not liable for credit card fraud.
+            </p>
+          </section>
 
-      <h2>Pricing Information</h2>
-      <p>
-        Pricing information is displayed in Indian Rupees, and all transactions fall under Indian law. If you pay more than the listed price, it is solely your responsibility.
-      </p>
+          <section className="mb-5">
+            <h2 className="text-primary fw-bold">Pricing Information</h2>
+            <p>
+              Prices are displayed in Indian Rupees and are subject to Indian laws. Users are responsible for verifying prices during transactions.
+            </p>
+          </section>
 
-      <h2>Drug Delivery</h2>
-      <p>
-        The Company is not responsible for delays in delivery. By agreeing to the terms, you consent to share your address with delivery personnel.
-      </p>
+          <section className="mb-5">
+            <h2 className="text-primary fw-bold">Delivery Terms</h2>
+            <p>
+              Idol Pharma is not liable for delivery delays. By using our services, you consent to share your address with delivery personnel.
+            </p>
+          </section>
 
-      <h2>User Obligations</h2>
-      <p>
-        You must not access or request information that may harm the Company’s identity. Any form of abuse, harassment, or threats will not be tolerated. You are also not permitted to delete any data from our website.
-      </p>
+          <section className="mb-5">
+            <h2 className="text-primary fw-bold">User Obligations</h2>
+            <p>
+              Users must not engage in activities that harm the company’s reputation or functionality. Harassment, abuse, and data tampering are strictly prohibited.
+            </p>
+          </section>
 
-      <h2>Notice and Takedown</h2>
-      <p>
-        If you find any offensive or illegal content, please contact us using the number provided on the website.
-      </p>
+          <section className="mb-5">
+            <h2 className="text-primary fw-bold">Notice and Takedown</h2>
+            <p>
+              For any offensive or illegal content, please notify us using the contact details provided on the website.
+            </p>
+          </section>
 
-      <h2>Risks Associated with Company’s Services</h2>
-      <p>
-        You are encouraged to share your medical history before purchasing any medications. We strongly recommend maintaining communication with your physician.
-      </p>
+          <section className="mb-5">
+            <h2 className="text-primary fw-bold">Disclaimer</h2>
+            <p>
+              Users are encouraged to consult their physician before purchasing medications. Idol Pharma is not liable for adverse effects arising from misuse of products.
+            </p>
+          </section>
 
-      <p>
-        *These Terms and Conditions may change at the sole discretion of the Company.
-      </p>
+          <p className="text-muted fst-italic">
+            *These Terms and Conditions are subject to change at the sole discretion of Idol Pharma.
+          </p>
+        </div>
       </div>
     </MasterLayout>
-  )
-}
+  );
+};
 
-export default Terms
+export default Terms;

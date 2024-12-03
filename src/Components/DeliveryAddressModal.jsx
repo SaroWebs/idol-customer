@@ -1,16 +1,14 @@
 import { Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { API_HOST } from "../config/config";
-import { useNavigate } from "react-router-dom"; // Add this import
 
 const DeliveryAddressModal = (props) => {
     const { text, fetchAddresses, addressList, setAddressList } = props;
     const [activeType, setActiveType] = useState(props.type);
     const [opened, { open, close }] = useDisclosure();
     
-
     const [formInfo, setFormInfo] = useState({
         address_line_1: '',
         address_line_2: '',
@@ -65,10 +63,12 @@ const DeliveryAddressModal = (props) => {
     const addNewAddress = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
+
         if (!(await pinValidation(formInfo.pin))) {
             alert('Invalid PIN code');
             return;
         }
+
         try {
             const response = await axios.post(`${API_HOST}/deliveryaddress/store`, formInfo, {
                 headers: {

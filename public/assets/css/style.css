@@ -995,9 +995,9 @@ textarea:invalid {
 .page-content-wrapper {
 	position: relative;
 	z-index: 1;
-	margin-top: 50px;
+	margin-top: 20px;
 	min-height: 80vh;
-	margin-bottom: 70px;
+	margin-bottom: 0;
 	padding: 4px;
 }
 

@@ -506,6 +506,7 @@
     position: relative;
     overflow: hidden;
     width: 175px;
+	background: ghostwhite;
 }
 
 @media screen and (max-width: 420px) {
@@ -533,7 +534,7 @@
 
 .tp-card img {
 	width: 100%;
-	max-height: 120px;
+	max-height: 140px;
     object-fit: contain;
 }
 .tp-card .product {
@@ -619,7 +620,7 @@
 	background: #ddd;
 	justify-content: center;
 	flex-direction: column;
-	margin-top: 2rem;
+	/* margin-top: 2rem; */
 }
 .web-footer .foot-bottom {
 	background: #0f0203;

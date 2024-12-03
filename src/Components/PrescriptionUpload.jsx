@@ -12,6 +12,8 @@ import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-ki
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import ShowPrescription from './ShowPrescription';
+import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const SortableItem = ({ id, preview }) => {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
@@ -34,6 +36,8 @@ const SortableItem = ({ id, preview }) => {
 const PrescriptionUpload = (props) => {
     const { type, text, isLoading, setIsLoading, order_no = '' } = props;
     const { cart } = useCart();
+    const { user } = useAuth();
+    const navigate = useNavigate();
     const [opened, { open, close }] = useDisclosure();
     const [images, setImages] = useState([]);
     const [previews, setPreviews] = useState([]);
@@ -93,8 +97,23 @@ const PrescriptionUpload = (props) => {
         maxFiles: 10,
     });
 
+    const noDeliveryAddress=()=>{
+        if(user.addresses && user.addresses.length > 0){
+            return false;
+        }
+        return true;
+    }
+
     const handleUpload = async (e) => {
         e.preventDefault();
+        
+        if(noDeliveryAddress){
+            if(confirm('You will need to add a delivery address. Are you sure you want to add an address?')){
+                navigate('/delivery-address');
+            }
+            return false;
+        }
+
         const token = localStorage.getItem('token');
         const formData = new FormData();
         images.forEach((image) => {

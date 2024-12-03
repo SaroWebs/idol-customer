@@ -41,12 +41,11 @@ const MasterLayout = (props) => {
                 isOpen={opened}
                 closeSidebar={close}
             />
-            <div className="bg-white" style={{ marginTop: '1rem', paddingTop:'1rem', marginBottom: '3.5rem', minHeight: '90vh', background: '#bebebe' }}>
-
+            <div style={{ marginTop: '1rem', paddingTop: '1rem', minHeight: '90vh', background: '#eee' }}>
                 {(title && title !== 'home') ? (
-                    <div className="page-header">
+                    <div className="page-header my-4 container">
                         <div className="d-flex p-2 align-items-start" style={{ gap: '1rem' }}>
-                            <div className="back-button">
+                            <div className="back-button d-md-none">
                                 <button onClick={handleBack} style={{ border: 'none', background: 'transparent' }}>
                                     <i style={{ fontSize: 'xx-large', color: '#00b894' }}
                                         className="fa fa-arrow-circle-left" aria-hidden="true"
@@ -62,11 +61,14 @@ const MasterLayout = (props) => {
                         </div>
                     </div>
                 ) : null}
-                {children}
-
+                <div style={{
+                    paddingBottom: '90px'
+                }}>
+                    {children}
+                </div>
             </div>
             <Footer />
-            <PopupScreen/>
+            <PopupScreen />
         </div>
     )
 }

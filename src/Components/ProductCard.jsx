@@ -32,34 +32,42 @@ const ProductCard = ({ product }) => {
 
     return (
         <div className="card tp-card col-6 col-md-3">
-            <div onClick={handleRedirectToProduct} className="card-body product">
-                {product.images.length > 0 ? (
-                    <img
-                        src={`${STORAGE_PATH}/${product.images[0].image_path}`}
-                        alt={product.name}
-                        loading="lazy" // Lazy load the image
-                        className='bg-white'
-                    />
-                ) : (
-                    <img
-                        src="/assets/images/no-image.png"
-                        alt={product.name}
-                        loading="lazy" // Lazy load the image
-                    />
-                )}
-                <div className="product-details">
-                    <h3>{product.name}</h3>
-                    <div className="price">
-                        {product.price > 0 && product.offer_price > 0 ? (
-                            <>
-                                <span className="new">{product.offer_price}</span>
-                                <span className="old">{product.price}</span>
-                            </>
-                        ) : (
-                            <span className="new">{product.offer_price || product.price}</span>
-                        )}
+            <div
+                onClick={handleRedirectToProduct} 
+                className="card-body product d-flex flex-column justify-content-between mb-4"
+                style={{
+                    overflow:'hidden'
+                }}
+                >
+                <div className="">
+                    {product.images.length > 0 ? (
+                        <img
+                            src={`${STORAGE_PATH}/${product.images[0].image_path}`}
+                            alt={product.name}
+                            loading="lazy" // Lazy load the image
+                            className='bg-white'
+                        />
+                    ) : (
+                        <img
+                            src="/assets/images/no-image.png"
+                            alt={product.name}
+                            loading="lazy" // Lazy load the image
+                        />
+                    )}
+                    <div className="product-details">
+                        <h3>{product.name}</h3>
+                        <div className="price">
+                            {product.price > 0 && product.offer_price > 0 ? (
+                                <>
+                                    <span className="new">{product.offer_price}</span>
+                                    <span className="old">{product.price}</span>
+                                </>
+                            ) : (
+                                <span className="new">{product.offer_price || product.price}</span>
+                            )}
+                        </div>
+                        <p>Mfr: {product.mfg_name}</p>
                     </div>
-                    <p>Mfr: {product.mfg_name}</p>
                 </div>
                 {product.status !== 1 ? (
                     <div className="d-flex justify-content-center align-items-center p-1">
