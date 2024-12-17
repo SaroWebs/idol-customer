@@ -95,11 +95,13 @@ const Login = () => {
 
       if (response.data.success) {
         const token = response.data.token;
-        localStorage.setItem('isVerified', 'true');
+        const newUrl = `/?token=${encodeURIComponent(token)}`;
+        
         setIsVerified(true);
-        localStorage.setItem('token', token);
         setIsAuthenticated(true);
-        navigate('/');
+        localStorage.setItem('isVerified', 'true');
+        localStorage.setItem('token', token);
+        navigate(newUrl);
         window.location.reload();
       } else {
         localStorage.setItem('isVerified', 'false');
@@ -126,16 +128,6 @@ const Login = () => {
   };
 
   const getOTPFromDevice = () => {
-    // const otpInputFields = document.querySelectorAll('input[autocomplete="one-time-code"]');
-    // if (otpInputFields.length === 4) {
-    //   let otp = '';
-    //   otpInputFields.forEach((input) => {
-    //     otp += input.value;
-    //   });
-    //   if (otp.length === 4) {
-    //     return otp;
-    //   }
-    // }
     return '';
   }
 

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
 import './App.css'
 import Account from './Pages/Auth/Account.jsx'
@@ -26,43 +26,42 @@ import EditProfile from './Pages/Auth/EditProfile.jsx'
 import DeliveryAddress from './Pages/Auth/DeliveryAddress.jsx'
 import Success from './Pages/Payment/Success'
 import PaymentFailed from './Pages/Payment/PaymentFailed'
+import ProtectedRoute from './Layouts/ProtectedRoute'
 
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/order/:id" element={<Order />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/category/:id/products" element={<CategoryProducts />} />
-        <Route path="/product/:id" element={<Product />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/prescriptions" element={<Prescriptions />} />
-        <Route path="/prescription/:code" element={<Prescription />} />
-        <Route path="/online-payment" element={<OnlinePayment />} />
-        
-        <Route path="/login" element={<Login />} />
-        <Route path="/profile" element={<MyProfile />} />
-        <Route path="/edit-profile" element={<EditProfile />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/settings" element={<AccountSettings />} />
-        <Route path="/delivery-address" element={<DeliveryAddress />} />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/products" element={<Products />} />
+      <Route path="/category/:id/products" element={<CategoryProducts />} />
+      <Route path="/product/:id" element={<Product />} />
+      <Route path="/online-payment" element={<OnlinePayment />} />
 
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/refund-policy" element={<CancellationRefund />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/shipping-policy" element={<ShippingPolicy />} />
-        <Route path="/terms-conditions" element={<Terms />} />
-        
-        <Route path="/payment-success" element={<Success />} />
-        <Route path="/payment-failed" element={<PaymentFailed />} />
+      <Route path="/login" element={<Login />} />
 
-      </Routes>
-    </Router>
+      <Route path="/about" element={<AboutUs />} />
+      <Route path="/about-us" element={<AboutUs />} />
+      <Route path="/refund-policy" element={<CancellationRefund />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/shipping-policy" element={<ShippingPolicy />} />
+      <Route path="/terms-conditions" element={<Terms />} />
+
+      <Route path="/payment-success" element={<Success />} />
+      <Route path="/payment-failed" element={<PaymentFailed />} />
+
+      <Route path="/orders" element={<ProtectedRoute element={<Orders />} />} />
+      <Route path="/order/:id" element={<ProtectedRoute element={<Order />} />} />
+      <Route path="/cart" element={<ProtectedRoute element={<Cart />} />} />
+      <Route path="/checkout" element={<ProtectedRoute element={<Checkout />} />} />
+      <Route path="/prescriptions" element={<ProtectedRoute element={<Prescriptions />} />} />
+      <Route path="/prescription/:code" element={<ProtectedRoute element={<Prescription />} />} />
+      <Route path="/profile" element={<ProtectedRoute element={<MyProfile />} />} />
+      <Route path="/edit-profile" element={<ProtectedRoute element={<EditProfile />} />} />
+      <Route path="/account" element={<ProtectedRoute element={<Account />} />} />
+      <Route path="/settings" element={<ProtectedRoute element={<AccountSettings />} />} />
+      <Route path="/delivery-address" element={<ProtectedRoute element={<DeliveryAddress />} />} />
+    </Routes>
   )
 }
 

@@ -4,7 +4,6 @@ import PrescriptionUpload from '../Components/PrescriptionUpload'
 import axios from 'axios';
 import { API_HOST, STORAGE_PATH } from '../config/config';
 import ShowPrescription from '../Components/ShowPrescription';
-import { Link } from 'react-router-dom';
 
 const Prescriptions = () => {
   const [prescGroup, setPrescGroup] = useState([]);

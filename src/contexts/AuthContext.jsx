@@ -1,12 +1,15 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_HOST } from '../config/config';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState({
@@ -25,8 +28,22 @@ export const AuthProvider = ({ children }) => {
     });
     localStorage.removeItem('isOtpSent')
     localStorage.removeItem('isVerified')
-    const token = localStorage.getItem('token');
 
+    const getUrlParams = () => {
+      const params = new URLSearchParams(location.search);
+      return params.get('token');
+    };
+
+    const urlToken = getUrlParams();
+    if (urlToken) {
+      localStorage.setItem('token', urlToken);
+    } else {
+      const storageToken = localStorage.getItem('token');
+      const newUrl = `${location.pathname}?token=${encodeURIComponent(storageToken)}`;
+      navigate(newUrl);
+    }
+
+    const token = localStorage.getItem('token');
     if (!token) {
       logout();
       setLoading({
@@ -80,13 +97,13 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
-  const updateUser=(fd)=>{
+  const updateUser = (fd) => {
     // fd consists of
   }
 
   // Return the logout method in the context
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, loading, setIsAuthenticated, setUser, logout, refreshAuth,updateUser }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, loading, setIsAuthenticated, setUser, logout, refreshAuth, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

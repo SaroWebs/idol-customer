@@ -14,7 +14,7 @@ const DeliveryAddress = () => {
         city: '',
         state: '',
         pin: '',
-        type: 'home' // Add default type
+        type: 'home'
     });
 
     const fetchAddresses = async () => {

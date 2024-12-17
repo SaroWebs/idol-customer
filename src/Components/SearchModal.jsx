@@ -7,11 +7,12 @@ import axios from 'axios';
 import { useCart } from '../contexts/CartContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { API_HOST } from '../config/config';
+import { useAuth } from '../contexts/AuthContext';
 
 const SearchModal = () => {
     const [opened, { open, close }] = useDisclosure(false);
     const navigate = useNavigate();
-
+    const { user } = useAuth();
     const [searchText, setSearchText] = useState('');
     const [items, setItems] = useState([]);
 
@@ -67,7 +68,7 @@ const SearchModal = () => {
                 fullScreen
                 radius={0}
                 transitionProps={{ transition: 'fade', duration: 200 }}
-                style={{ position: 'relative', zIndex: 9999999, background:'#ffffff50' }}>
+                style={{ position: 'relative', zIndex: 9999999, background: '#ffffff50' }}>
 
                 <div className='search-content'>
                     <div className='s-input-container'>
@@ -98,7 +99,11 @@ const SearchModal = () => {
                         :
                         <div className='d-flex flex-column align-items-center'>
                             <span>Or</span>
-                            <Link to={'/prescriptions'}>Upload Prescription</Link>
+                            {user ?
+                                <Link to={'/prescriptions'}>Upload Prescription</Link>
+                                :
+                                <Link to={'/login'}>Login to upload prescription</Link>
+                            }
                         </div>
                     }
                 </div>

@@ -9,7 +9,7 @@ import { API_HOST } from '../config/config';
 
 const Checkout = () => {
     const { cart, updateCart, removeFromCart } = useCart();
-    const { user, refreshAuth } = useAuth();
+    const { user } = useAuth();
     const [localQuantities, setLocalQuantities] = useState({});
     const [paymentMode, setPaymentMode] = useState('Cash');
     const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +19,6 @@ const Checkout = () => {
         if (cart) {
             setLocalQuantities(cart.reduce((acc, item) => ({ ...acc, [item.id]: item.quantity }), {}));
         }
-        refreshAuth();
     }, [cart]);
 
     const handleChangeQuantity = (e, itemId) => {
@@ -38,31 +37,23 @@ const Checkout = () => {
 
     const totals = useMemo(() => {
         const total_qty = cart ? cart.reduce((acc, item) => acc + item.quantity, 0) : 0;
-        const total_amount = cart ? cart.reduce((acc, item) => acc + (item.product.offer_price * item.quantity), 0) : 0;
 
-        const total_tax = cart
-            ? cart.reduce((acc, item) => {
-                const taxRate = item.product.tax?.tax_rate || 0; // Use optional chaining and default to 0
-                return acc + (taxRate * item.quantity);
-            }, 0)
+        const total_amount = cart
+            ? cart.reduce((acc, item) => acc + (item.product.offer_price * item.quantity), 0)
             : 0;
 
-        return { total_qty, total_amount, total_tax };
+        return { total_qty, total_amount };
     }, [cart]);
+
 
     const presc = useMemo(() => cart && cart.some((item) => item.product.prescription === 1), [cart]);
     const activeAddress = user?.addresses?.find((address) => address.active) || user?.addresses?.[0];
 
     useEffect(() => {
         if (activeAddress && totals.total_amount) {
-            console.log("Fetching delivery charge with payload:", {
-                pin: activeAddress.pin,
-                amount: totals.total_amount + totals.total_tax
-            });
-    
             axios.post(`${API_HOST}/delivery/charge/get`, {
                 pin: activeAddress.pin,
-                amount: totals.total_amount + totals.total_tax
+                amount: totals.total_amount
             })
                 .then((res) => {
                     console.log("Delivery charge response:", res.data);
@@ -72,8 +63,8 @@ const Checkout = () => {
                     console.error("Error fetching delivery charge:", err.response?.data || err.message);
                 });
         }
-    }, [activeAddress, totals.total_amount, totals.total_tax]);
-    
+    }, [activeAddress,totals.total_amount]);
+
 
     return (
         <MasterLayout title="Checkout">
@@ -90,10 +81,10 @@ const Checkout = () => {
                             handleChangeQuantity={handleChangeQuantity}
                             handleBlur={handleBlur}
                             removeFromCart={removeFromCart}
+                            updateCart={updateCart}
                         />
 
                         <BillingInformation user={user} activeAddress={activeAddress} />
-
                         <PaymentMethodSelection paymentMode={paymentMode} setPaymentMode={setPaymentMode} />
 
                         {presc && (
@@ -114,7 +105,7 @@ const Checkout = () => {
                                     <h5 className="total-price mb-0">Delivery Charge: ₹ {charge.toFixed(2)}</h5>
                                     <h5 className="total-price mb-0">Subtotal: ₹ {(Number(totals.total_amount) + Number(charge)).toFixed(2)}</h5>
                                 </div>
-                                <PlaceOrder paymentMode={paymentMode} total={(Number(totals.total_amount) + Number(charge)).toFixed(2)}/>
+                                <PlaceOrder paymentMode={paymentMode} total={(Number(totals.total_amount) + Number(charge)).toFixed(2)} />
                             </div>
                         </div>
                     </div>
@@ -128,7 +119,7 @@ const Checkout = () => {
     );
 };
 
-const ProductReviewTable = ({ cart, localQuantities, handleChangeQuantity, handleBlur, removeFromCart }) => (
+const ProductReviewTable = ({ cart, localQuantities, handleChangeQuantity, handleBlur, updateCart , removeFromCart }) => (
     <div className="billing-information-card mb-3">
         <div className="card billing-information-title-card bg-primary">
             <div className="card-body">
@@ -148,9 +139,7 @@ const ProductReviewTable = ({ cart, localQuantities, handleChangeQuantity, handl
                     </thead>
                     <tbody style={{ borderBottom: '1px solid black' }}>
                         {cart.map((item, i) => {
-                            const tax = item.product?.tax?.tax_rate * item.quantity || 0;
-                            const subtotal = (item.product?.offer_price || 0) * item.quantity + tax;
-
+                            const subtotal = (item.product?.offer_price || 0) * item.quantity;
                             return (
                                 <tr key={i} className="resjmopl-y-ljhtk">
                                     <td style={{ width: '65%' }}>

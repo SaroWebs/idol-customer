@@ -44,6 +44,13 @@ const PrescriptionUpload = (props) => {
     const [prescriptionRequired, setPrescriptionRequired] = useState(false);
     const [prescription, setPrescription] = useState(null);
     const [instructions, setInstructions] = useState('');
+    const [hasAddress, setHasAddress]=useState(false);
+
+    useEffect(() => {
+        if(user && user.addresses && user.addresses.length > 0){
+            setHasAddress(true);
+        }
+    }, [user]);
 
     useEffect(() => {
         if (type === 'pending') {
@@ -97,23 +104,18 @@ const PrescriptionUpload = (props) => {
         maxFiles: 10,
     });
 
-    const noDeliveryAddress=()=>{
-        if(user.addresses && user.addresses.length > 0){
-            return false;
-        }
-        return true;
-    }
 
     const handleUpload = async (e) => {
         e.preventDefault();
         
-        if(noDeliveryAddress){
+        if(!hasAddress){
             if(confirm('You will need to add a delivery address. Are you sure you want to add an address?')){
                 navigate('/delivery-address');
             }
+            close();
             return false;
         }
-
+        
         const token = localStorage.getItem('token');
         const formData = new FormData();
         images.forEach((image) => {
