@@ -69,8 +69,7 @@ const PrivacyPolicy = () => {
               <li className="list-group-item">Respond to inquiries or feedback.</li>
             </ul>
             <p>
-              If you wish to stop receiving communications from us, email us at{' '}
-              <a href="mailto:youremail@example.com" className="text-primary text-decoration-none">youremail@example.com</a>.
+              If you wish to stop receiving communications from us, contact us at{' '}7896024584.
             </p>
           </section>
 
@@ -78,6 +77,13 @@ const PrivacyPolicy = () => {
             <h2 className="text-primary fw-bold">Storage and Security of Information</h2>
             <p>
               We operate secure data networks protected by industry-standard firewalls and password protection systems. Only authorized personnel have access to client information. Our security policies are reviewed and enhanced periodically to ensure data safety.
+            </p>
+          </section>
+
+          <section className="mb-5">
+            <h2 className="text-primary fw-bold">Contact Us</h2>
+            <p>
+              If you have any questions or concerns about our Privacy Policy, feel free to reach out to us at 7896024584
             </p>
           </section>
         </div>

@@ -3,9 +3,10 @@ import MasterLayout from '../Layouts/MasterLayout'
 import { useCart } from '../contexts/CartContext';
 import DeliveryAddressModal from '../Components/DeliveryAddressModal';
 import axios from 'axios';
-import { API_HOST } from '../config/config';
+import { API_HOST, TEST_EMAIL } from '../config/config';
 import { Link } from 'react-router-dom';
 import PrescriptionUpload from '../Components/PrescriptionUpload';
+import { useAuth } from '../contexts/AuthContext';
 
 const Cart = () => {
   const { cart, updateCart, removeFromCart } = useCart();
@@ -56,7 +57,12 @@ const Cart = () => {
   const total_qty = cart ? cart.reduce((acc, item) => acc + item.quantity, 0) : 0;
   const total_amount = cart ? cart.reduce((acc, item) => acc + (item.product.offer_price * item.quantity), 0) : 0;
   const activeAddress = addressList ? addressList.find(address => address.active) : null; // Find the active address
-  const presc = cart ? cart.some(item => item.product.prescription == 1) : false;
+  
+  const { user } = useAuth();
+  let presc = cart ? cart.some(item => item.product.prescription == 1) : false;
+  if (user?.email === TEST_EMAIL) {
+      presc = false;
+  }
 
   return (
     <MasterLayout title="Your Cart">

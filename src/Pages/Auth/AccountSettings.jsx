@@ -30,7 +30,6 @@ const AccountSettings = () => {
 
             {/* Single Setting Cards */}
             <SettingCard title="About Us" icon="lni lni-rocket" link="/about" />
-            <SettingCard title="Support" icon="lni lni-question-circle" link="/support" />
             <SettingCard title="Privacy Policy" icon="lni lni-protection" link="/privacy-policy" />
             <SettingCard title="Terms & Conditions" icon="fa fa-question-circle-o" link="/terms-conditions" />
             {/* <SettingCard title="Disclaimer" icon="lni lni-bolt" link="/disclaimer" /> */}

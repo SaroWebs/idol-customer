@@ -1,3 +1,6 @@
+import { TEST_EMAIL } from "../config/config";
+import { useAuth } from "../contexts/AuthContext";
+
 export const menuLinks = [
     { path: '/', label: 'Home', icon: 'lni lni-home', protected: false },
     { path: '/orders', label: 'Orders', icon: 'lni lni-delivery', protected: true },
@@ -7,7 +10,18 @@ export const menuLinks = [
 ];
 
 export const getMenuLinks = (isAuthenticated) => {
-    return menuLinks.map(link => ({
+    let filteredLinks = [...menuLinks];
+
+    if (isAuthenticated) {
+        const { user } = useAuth();
+        if (user?.email === TEST_EMAIL) {
+            filteredLinks = filteredLinks.filter(link => link.path !== '/prescriptions');
+        }
+    }else{
+        filteredLinks = filteredLinks.filter(link => link.path !== '/prescriptions');  
+    }
+
+    return filteredLinks.map(link => ({
         ...link,
         path: link.protected && !isAuthenticated ? '/login' : link.path
     }));

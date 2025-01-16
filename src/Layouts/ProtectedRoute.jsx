@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-
+import { TEST_EMAIL } from '../config/config';
 const ProtectedRoute = ({ element }) => {
-    const { isAuthenticated, loading } = useAuth();
+    const { isAuthenticated, user, loading } = useAuth();
     const [shouldRedirect, setShouldRedirect] = useState(false);
 
     useEffect(() => {
@@ -22,6 +22,10 @@ const ProtectedRoute = ({ element }) => {
 
     if (shouldRedirect) {
         return <Navigate to="/login" />;
+    }
+
+    if (user?.email === TEST_EMAIL && element.type.name === 'Prescriptions') {
+        return <Navigate to="/" />;
     }
 
     return isAuthenticated ? element : null;

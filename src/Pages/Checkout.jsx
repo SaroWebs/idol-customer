@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import PlaceOrder from '../Components/PlaceOrder';
 import PrescriptionUpload from '../Components/PrescriptionUpload';
 import axios from 'axios';
-import { API_HOST } from '../config/config';
+import { API_HOST, TEST_EMAIL } from '../config/config';
 
 const Checkout = () => {
     const { cart, updateCart, removeFromCart } = useCart();
@@ -46,7 +46,13 @@ const Checkout = () => {
     }, [cart]);
 
 
-    const presc = useMemo(() => cart && cart.some((item) => item.product.prescription === 1), [cart]);
+    // const presc = useMemo(() => cart && cart.some((item) => item.product.prescription === 1), [cart]);
+
+    let presc = cart ? cart.some(item => item.product.prescription == 1) : false;
+    if (user?.email === TEST_EMAIL) {
+        presc = false;
+    }
+
     const activeAddress = user?.addresses?.find((address) => address.active) || user?.addresses?.[0];
 
     useEffect(() => {
